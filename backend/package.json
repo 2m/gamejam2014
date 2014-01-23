@@ -1,0 +1,11 @@
+{
+  "name": "gamejam2014-backend",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "socket.io": "https://github.com/LearnBoost/socket.io/archive/master.tar.gz"    
+  }
+}
