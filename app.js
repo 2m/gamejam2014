@@ -8,7 +8,6 @@ var io = require('socket.io')(server);
 
 var clients = {}
 
-console.log("Starting GAME server.")
 io.on('connection', function (socket) {
   console.log("someones connecting");
 

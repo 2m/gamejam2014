@@ -19,17 +19,18 @@
     socket.on('other_car', function (data) {
       console.log("got other_car message")
       console.log(data)
+
       var otherCar = undefined
       if (data.id in otherCars) {
         otherCar = otherCars[data.id]
       }
       else {
-        console.log("creating new car" + data.id)
+        console.log("creating new car " + data.id)
         otherCar = new Sprite();
         var cb = new Bitmap(new BitmapData("car.png"));
         cb.x = -123; cb.y = -50;
         otherCar.addChild(cb);
-        stage.addChild(car);
+        stage.addChild(otherCar);
 
         otherCars[data.id] = otherCar
       }
@@ -91,7 +92,7 @@
       car.x += Math.cos(angle) * speed;
       car.y += Math.sin(angle) * speed;
 
-      counter = (counter + 1) % 100
+      counter = (counter + 1) % 50
       if (counter == 0) {
         var data = {
           id: "car_" + myCarId,
