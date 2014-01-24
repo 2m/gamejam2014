@@ -1,0 +1,20 @@
+{
+  "name": "gamejam2014",
+  "version": "0.0.1",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "nodejs app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2m/gamejam2014.git"
+  },
+  "dependencies": {
+    "socket.io": "https://github.com/LearnBoost/socket.io/tarball/7d5612eed71890c13761e60573ff528a00b6140c",
+    "connect": "https://github.com/senchalabs/connect/tarball/7a1dacc2db01e6f9c2cdf93ddb4a451a4ca84cf8"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}

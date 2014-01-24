@@ -9,7 +9,7 @@
 
     var myCarId = Math.floor((Math.random()*100)+1)
     var counter = 0;
-    var socket = io.connect('http://localhost:8888');
+    var socket = io.connect('http://' + window.location.hostname + ':8888');
     socket.on('news', function (data) {
       console.log(data);
       socket.emit('my other event', { id: "car_" + myCarId });
@@ -64,7 +64,6 @@
     
     function onKD (e)
     { 
-      console.log(e.keyCode);
       if(e.keyCode == 37) l = true;
       if(e.keyCode == 38) u = true;
       if(e.keyCode == 39) r = true;
@@ -98,6 +97,7 @@
           id: "car_" + myCarId,
           coords: { x: car.x, y: car.y }
         }
+        console.log("sending data to server")
         socket.emit('car_coords', data)
       }
     }
