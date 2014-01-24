@@ -1,10 +1,10 @@
-console.log("Starting WEB server.")
+console.log("Starting WEB and GAME server.")
 
 var connect = require("connect");
 var app = connect().use(connect.static(__dirname + "/frontend"));
-app.listen(process.env.PORT || 8080);
+var server = app.listen(process.env.PORT || 8080);
 
-var io = require('socket.io')();
+var io = require('socket.io')(server);
 
 var clients = {}
 
@@ -33,5 +33,3 @@ io.on('connection', function (socket) {
   });
   
 });
-
-io.listen(8888);
