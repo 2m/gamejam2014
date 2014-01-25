@@ -4,22 +4,19 @@
 
   exports["Simulation"] = Simulation
 
-  function Simulation() {
+  function Simulation(world) {
     // how much veolicty degrades per frame
     this.friction = 0.8
 
-    this.objects = {}
-
-    this.addObject = function(object) {
-      this.objects[object.id] = object
-    }
+    this.world = world
 
     this.applyCommand = function (command) {
-      if (!(command.objectId in this.objects)) {
+      var object = this.world.getObject(command.objectId)
+      if (object === undefined) {
         console.log("Command for unknown objectId:" + command.objectId)
+        return
       }
 
-      var object = this.objects[command.objectId]
       switch (command.commandName) {
         case "MovementStart":
           object.velocity = command.direction.mul(command.speed)
@@ -33,8 +30,8 @@
     }
 
     this.simulateTick = function () {
-      for (objectId in this.objects) {
-        var object = this.objects[objectId]
+      for (objectId in this.world.objects) {
+        var object = this.world.getObject(objectId)
         object.coords = object.coords.add(object.velocity)
         object.velocity = object.velocity.mul(this.friction)
       }

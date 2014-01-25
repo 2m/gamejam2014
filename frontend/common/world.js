@@ -30,7 +30,7 @@
      * Returns humand_id
      */
     this.addHuman = function(human) {
-      var humanId = "h0";
+      var humanId = human.id || "h0"
 
       if (this.humans[humanId]) {
         throw "human with id " + humanId + " already exists"
