@@ -17,6 +17,10 @@
       return new Vector(this.x * scalar, this.y * scalar)
     }
 
+    this.length = function() {
+      return Math.sqrt(this.x * this.x + this.y * this.y)
+    }
+
     this.toString = function() {
       return "[x:" + this.x + ", y:" + this.y + "]"
     }

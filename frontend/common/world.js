@@ -55,7 +55,6 @@
 
     this.removeHuman = function(humanId) {
       delete this.humans[humanId]
-      this.removeObject(humanId)
     }
 
     this.addCow = function(cow) {

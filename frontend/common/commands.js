@@ -6,7 +6,7 @@
   exports["MovementEnd"] = MovementEnd
   exports["FullWorld"] = FullWorld
 
-  function MovementStart(frameId, objectId, direction) {
+  function MovementStart(frameId, objectId, direction, coords) {
     this.commandName = "MovementStart"
     this.frameId = frameId // int
     this.objectId = objectId
@@ -22,7 +22,8 @@
       case "NW": this.direction = new components.Vector(-1, -1); break;
     }
 
-    this.speed = 10
+    this.speed = 1
+    this.coords = coords
   }
 
   MovementStart.inflate = function (command) {

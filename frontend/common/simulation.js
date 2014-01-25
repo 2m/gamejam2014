@@ -19,6 +19,10 @@
 
       switch (command.commandName) {
         case "MovementStart":
+          if (command.coords !== undefined) {
+            object.coords = command.coords
+          }
+
           object.velocity = command.direction.mul(command.speed)
           object.beingMoved = true
           break
@@ -39,6 +43,9 @@
 
         if (!object.beingMoved) {
           object.velocity = object.velocity.mul(this.friction)
+          if (object.velocity.length() < 0.01) {
+            object.velocity = components.Vector.Zero
+          }
         }
       }
     }

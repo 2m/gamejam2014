@@ -5,7 +5,6 @@
       var modules = {}
 
       function require(path) {
-        console.log("This needs to be included: " + path)
         var pathList = path.split("/")
         return modules[pathList[pathList.length - 1]]
       }

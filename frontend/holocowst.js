@@ -12,15 +12,18 @@
 
   var socket = io.connect()
   socket.on('world_data', function (data) {
-    console.log("Got world data.")
-    console.log(data)
-
     world = inflater.inflate(data)
-    console.log(world)
-    
     simulation = new modules.simulation.Simulation(world)
+
+    var lastTickTimestamp = Date.now()
     setInterval(function () {
-      simulation.simulateTick()
+      var frameTime = Date.now() - lastTickTimestamp
+
+      while (frameTime > 0) {
+        simulation.simulateTick()
+        frameTime -= 15
+      }
+      lastTickTimestamp = Date.now()
     }, 15)
 
     if (myId !== undefined && stage === undefined) {
@@ -38,6 +41,10 @@
     }
   })
 
+  socket.on('command', function (command) {
+    simulation.applyCommand(inflater.inflate(command))
+  })
+
   function createNewHumanSprite() {
     var sprite = new Sprite()
     sprite.x = stage.stageWidth/2
@@ -53,6 +60,7 @@
   function Start()
   {
     stage = new Stage("c")
+    console.log("Stage w:" + stage.stageWidth + ", stage h: " + stage.stageHeight)
 
     // background
     var s = new Sprite()

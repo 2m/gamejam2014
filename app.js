@@ -18,9 +18,26 @@ var inflater = new (require('./frontend/common/inflater').Inflater)()
 var world = new worldModule.World()
 var sim = new simulation.Simulation(world)
 
+var lastTickTimestamp = Date.now()
 setInterval(function () {
-  sim.simulateTick()
+  var frameTime = Date.now() - lastTickTimestamp
+
+  while (frameTime > 0) {
+    sim.simulateTick()
+    frameTime -= 15
+  }
+  lastTickTimestamp = Date.now()
 }, 15)
+
+setInterval(function () {
+  //sendWorldSync()
+}, 500)
+
+function sendWorldSync() {
+  for (var humanId in clients) {
+    clients[humanId].emit('world_data', new commands.FullWorld(world));
+  }
+}
 
 io.on('connection', function (socket) {
   console.log("received new connection: " + socket);
@@ -36,17 +53,25 @@ io.on('connection', function (socket) {
 
   // new player connected and was added to the world
   // lets send the new world to all players
-  for (var humanId in clients) {
-    clients[humanId].emit('world_data', new commands.FullWorld(world));
-  }
+  sendWorldSync()
 
   socket.on('command', function (command) {
     try {
-      console.log("received command:")
-      console.log(command)
+      console.log("received command:" + command.commandName)
       sim.applyCommand(inflater.inflate(command))
+
+      // resend the command for all other clients to reapply
+      for (var humanId in clients) {
+        if (humanId != command.objectId) {
+          var position = world.getObject(humanId).coords
+          command.coords = position
+          console.log("sending command to user" + humanId)
+          clients[humanId].emit('command', command);
+        }
+      }
+
     } catch (e) {
-      console.log(e)
+      console.log(e.stack)
     }
   })
 
@@ -54,6 +79,7 @@ io.on('connection', function (socket) {
     try {
       console.log("disconnected: " + socket)
       world.removeHuman(humanId)
+      delete clients[humanId]
     } catch (e){
       console.log(e)
     }
