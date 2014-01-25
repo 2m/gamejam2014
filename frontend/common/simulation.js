@@ -3,17 +3,21 @@
   exports["Simulation"] = Simulation
 
   function Simulation() {
-    var actors = {}
+    this.objects = {}
+
+    this.addObject = function(object) {
+      this.objects[object.id] = object
+    }
 
     this.applyCommand = function (command) {
-      if (!(command.objectId in actors)) {
+      if (!(command.objectId in this.objects)) {
         console.log("Command for unknown objectId:" + command.objectId)
       }
 
-      var actor = actors[command.objectId]
+      var actor = this.objects[command.objectId]
       switch (command.commandName) {
         case "MovementStart":
-          // todo
+          actor.velocity = command.direction.mul(command.speed)
           break
         default:
           console.log("Unknown command: " + command.commandName)

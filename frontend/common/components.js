@@ -13,7 +13,7 @@
     }
 
     this.mul = function(scalar) {
-      return new Vecotr(this.x * scalar, this.y * scalar)
+      return new Vector(this.x * scalar, this.y * scalar)
     }
 
     this.toString = function() {
@@ -21,12 +21,14 @@
     }
   }
 
-  function Human() {
+  function Human(id) {
+    this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
   }
 
-  function Cow() {
+  function Cow(id) {
+    this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
   }

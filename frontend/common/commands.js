@@ -1,22 +1,24 @@
 (function(exports) {
 
+  var components = require("./components")
+
   exports["MovementStart"] = MovementStart
 
-  function MovementStart(objectId, direction) {
+  function MovementStart(frameId, objectId, direction) {
     this.commandName = "MovementStart"
+    this.frameId = frameId // int
     this.objectId = objectId
 
-    /*
-      N  - Vector(0, 1)
-      NE - Vector(1, 1)
-      E -  Vector(1, 0)
-      SE - Vector(1, -1)
-      S -  Vector(0, -1)
-      SW - Vector(-1, -1)
-      W -  Vector(-1, 0)
-      NW - Vector(-1, 1)
-     */
-    this.direction = direction
+    switch (direction) {
+      case "N":  this.direction = new components.Vector(0, -1); break;
+      case "NE": this.direction = new components.Vector(1, -1); break;
+      case "E":  this.direction = new components.Vector(1, 0); break;
+      case "SE": this.direction = new components.Vector(1, 1); break;
+      case "S":  this.direction = new components.Vector(0, 1); break;
+      case "SW": this.direction = new components.Vector(-1, 1); break;
+      case "W":  this.direction = new components.Vector(-1, 0); break;
+      case "NW": this.direction = new components.Vector(-1, -1); break;
+    }
 
     this.speed = 1
   }
