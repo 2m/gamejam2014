@@ -24,10 +24,21 @@
     this.speed = 1
   }
 
+  MovementStart.inflate = function (command) {
+    var direction = new components.Vector(command.direction.x, command.direction.y)
+    var command = new MovementStart(command.frameId, command.objectId)
+    command.direction = direction
+    return command
+  }
+
   function MovementEnd(frameId, objectId) {
     this.commandName = "MovementEnd"
     this.frameId = frameId
     this.objectId = objectId
+  }
+
+  MovementEnd.inflate = function (command) {
+    return new MovementEnd(command.frameId, command.objectId)
   }
 
 })(typeof module === 'undefined' ? this['commands'] = {} : module.exports)

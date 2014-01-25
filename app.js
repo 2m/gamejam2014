@@ -12,6 +12,7 @@ var clients = {}
 var simulation = require('./frontend/common/simulation')
 var worldModule = require('./frontend/common/world')
 var components = require('./frontend/common/components')
+var inflater = new (require('./frontend/common/inflater').Inflater)()
 
 var world = new worldModule.World()
 var sim = new simulation.Simulation(world)
@@ -30,8 +31,9 @@ io.on('connection', function (socket) {
 
   socket.on('command', function (command) {
     try {
-      console.log("received command: " + command)
-      sim.applyCommand(command)
+      console.log("received command:")
+      console.log(command)
+      sim.applyCommand(inflater.inflate(command))
     } catch (e) {
       console.log(e)
     }
