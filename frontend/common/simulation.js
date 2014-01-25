@@ -55,17 +55,23 @@
         var outer = objects[outer_key]
 
         // object has no bounding box
-        if (!outer.boundingBox) {
+        if (!outer.bbox) {
           continue;
         }
 
-        for (var inner_index = outer_index + 1; inner_index < keys.lenght; inner_index++) {
+        for (var inner_index = outer_index + 1;
+             inner_index < keys.lenght; inner_index++) {
+
           var inner_key = keys[inner_index]
           var inner = objects[inner_key]
 
           // object has no bounding box
-          if (!outer.boundingBox) {
+          if (!outer.bbox) {
             continue;
+          }
+
+          if (inner.bbox.collides(outer.bbox)) {
+            collision_pairs.push([outer, inner])
           }
         }
       }
