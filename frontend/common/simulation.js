@@ -24,9 +24,13 @@
 
       switch (command.commandName) {
         case "MovementStart":
-          object.coords = command.coords
+          //object.coords = command.coords
 
-          object.velocity = command.direction.mul(command.speed)
+          // vector which points from the current client position to the server known position
+          // will be used to correct client movement
+          var vect = command.coords.sub(object.coords).normalize()
+
+          object.velocity = command.direction.mul(command.speed).add(vect.mul(0.1))
           object.beingMoved = true
           break
         case "MovementEnd":

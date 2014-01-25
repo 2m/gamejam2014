@@ -13,12 +13,30 @@
       return new Vector(this.x + otherVector.x, this.y + otherVector.y)
     }
 
+    this.sub = function(otherVector) {
+      return new Vector(this.x - otherVector.x, this.y - otherVector.y)
+    }
+
     this.mul = function(scalar) {
       return new Vector(this.x * scalar, this.y * scalar)
     }
 
     this.length = function() {
       return Math.sqrt(this.x * this.x + this.y * this.y)
+    }
+
+    this.distanceTo = function(other) {
+      return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2))
+    }
+
+    this.normalize = function() {
+      var length = this.length()
+      if (length != 0) {
+        return new Vector(this.x / length, this.y / length)
+      }
+      else {
+        return Vector.Zero
+      }
     }
 
     this.toString = function() {
