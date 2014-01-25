@@ -21,6 +21,8 @@
     }
   }
 
+  Vector.Zero = new Vector(0, 0)
+
   function Human(id) {
     this.id = id
     this.coords = new Vector(0, 0)

@@ -28,3 +28,21 @@ exports.shouldApplyMovementStartCommand = function(test) {
 
   test.done()
 }
+
+exports.shouldApplyMovementEndCommand = function(test) {
+
+  var s = new simulation.Simulation()
+  var h = new components.Human("human")
+  var c = new commands.MovementEnd(1, "human")
+
+  h.velocity.x = 12
+  h.velocity.y = 2
+
+  s.addObject(h)
+  s.applyCommand(c)
+
+  test.ok(h.velocity.x == 0, "human should not be moving sideways")
+  test.ok(h.velocity.y == 0, "human should not be moving vertically")
+
+  test.done()
+}

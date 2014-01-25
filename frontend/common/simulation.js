@@ -1,5 +1,7 @@
 (function(exports) {
 
+  var components = require("./components")
+
   exports["Simulation"] = Simulation
 
   function Simulation() {
@@ -14,10 +16,13 @@
         console.log("Command for unknown objectId:" + command.objectId)
       }
 
-      var actor = this.objects[command.objectId]
+      var object = this.objects[command.objectId]
       switch (command.commandName) {
         case "MovementStart":
-          actor.velocity = command.direction.mul(command.speed)
+          object.velocity = command.direction.mul(command.speed)
+          break
+        case "MovementEnd":
+          object.velocity = components.Vector.Zero
           break
         default:
           console.log("Unknown command: " + command.commandName)

@@ -3,6 +3,7 @@
   var components = require("./components")
 
   exports["MovementStart"] = MovementStart
+  exports["MovementEnd"] = MovementEnd
 
   function MovementStart(frameId, objectId, direction) {
     this.commandName = "MovementStart"
@@ -21,6 +22,12 @@
     }
 
     this.speed = 1
+  }
+
+  function MovementEnd(frameId, objectId) {
+    this.commandName = "MovementEnd"
+    this.frameId = frameId
+    this.objectId = objectId
   }
 
 })(typeof module === 'undefined' ? this['commands'] = {} : module.exports)
