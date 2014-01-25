@@ -35,6 +35,9 @@
     }
 
     this.simulateTick = function () {
+
+      this.world.increaseCurrentFrameNum()
+
       for (objectId in this.world.getAllObjects()) {
         var object = this.world.getObject(objectId)
 

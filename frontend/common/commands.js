@@ -49,15 +49,8 @@
   }
 
   FullWorld.inflate = function (command) {
-    var worldData = command.world
-
-    var world = new (require("./world").World)()
-    for (objectId in worldData.humans) {
-      var inflatedHuman = require("./components").Human.inflate(worldData.humans[objectId])
-      world.addHuman(inflatedHuman)
-    }
-
-    return world
+    var world = require("./world").World.inflate(command.world)
+    return new FullWorld(world)
   }
 
 })(typeof module === 'undefined' ? this['modules']['commands'] = {} : module.exports)

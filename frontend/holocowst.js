@@ -12,7 +12,7 @@
 
   var socket = io.connect()
   socket.on('world_data', function (data) {
-    world = inflater.inflate(data)
+    world = inflater.inflate(data).world
     simulation = new modules.simulation.Simulation(world)
     var ticker = new modules.ticker.Ticker(simulation)
 

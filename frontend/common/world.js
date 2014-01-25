@@ -7,6 +7,16 @@
     this.cows = {}              // cow_id => cow
     this.flowers = {}           // flower_id => flower
 
+    this.currentFrameNum = 0
+
+    this.getCurrentFrameNum = function() {
+      return this.currentFrameNum
+    }
+
+    this.increaseCurrentFrameNum = function() {
+      this.currentFrameNum += 1
+    }
+
     // humans cows and flowers in one object pool
     this.getAllObjects = function() {
       var allObjects = {}
@@ -71,6 +81,16 @@
 
       return cowId
     }
+  }
+
+  World.inflate = function(data) {
+    var world = new World()
+    for (objectId in data.humans) {
+      var inflatedHuman = require("./components").Human.inflate(data.humans[objectId])
+      world.addHuman(inflatedHuman)
+    }
+    world.currentFrameNum = data.currentFrameNum
+    return world
   }
 
   // this makes module work in nodejs as well as in browser
