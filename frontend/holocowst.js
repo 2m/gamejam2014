@@ -97,4 +97,6 @@
             socket.emit('car_coords', data)
 	}
     }
+    
+    Start()
 })();
