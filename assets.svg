@@ -24,17 +24,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="256.3055"
-     inkscape:cy="492.35225"
+     inkscape:zoom="0.7"
+     inkscape:cx="44.594514"
+     inkscape:cy="279.78239"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="851"
-     inkscape:window-height="705"
-     inkscape:window-x="188"
-     inkscape:window-y="194"
-     inkscape:window-maximized="0" />
+     showgrid="true"
+     inkscape:window-width="946"
+     inkscape:window-height="785"
+     inkscape:window-x="509"
+     inkscape:window-y="98"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3034" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -57,13 +61,13 @@
        width="991.42859"
        height="794.28571"
        x="-222.85716"
-       y="200.93359"
+       y="-64.780693"
        inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/rect4035.png"
        inkscape:export-xdpi="43"
        inkscape:export-ydpi="43" />
     <g
        id="g3023"
-       transform="matrix(0.88407841,0,0,0.88407841,-355.5518,251.65895)"
+       transform="matrix(0.88407841,0,0,0.88407841,-355.5518,-14.055336)"
        inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/human.png"
        inkscape:export-xdpi="23.518368"
        inkscape:export-ydpi="23.518368"
@@ -92,7 +96,7 @@
     </g>
     <g
        id="g4026"
-       transform="translate(-24.243661,-105.05586)"
+       transform="translate(-24.243661,-370.77015)"
        inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/cow.png"
        inkscape:export-xdpi="22.94824"
        inkscape:export-ydpi="22.94824"
@@ -146,6 +150,33 @@
          width="117.58153"
          id="rect3028-8-3"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+    </g>
+    <g
+       id="g3832"
+       inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/bg_grid.png"
+       inkscape:export-xdpi="16"
+       inkscape:export-ydpi="16">
+      <rect
+         y="773.79077"
+         x="21.428572"
+         height="180"
+         width="180"
+         id="rect3003"
+         style="fill:#33ff66;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="773.79077"
+         x="21.428572"
+         height="90"
+         width="90"
+         id="rect3003-7"
+         style="fill:#669900;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="863.79077"
+         x="111.42857"
+         height="90"
+         width="90"
+         id="rect3003-7-2"
+         style="fill:#669900;fill-opacity:1;fill-rule:evenodd" />
     </g>
   </g>
 </svg>
