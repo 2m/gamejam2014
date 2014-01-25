@@ -45,16 +45,14 @@ io.on('connection', function (socket) {
   socket.on('command', function (command) {
     try {
       console.log("received command:" + command.commandName)
+      var position = world.getObject(command.objectId).coords
+      command.coords = position
       simulation.applyCommand(inflater.inflate(command))
 
-      // resend the command for all other clients to reapply
+      // resend the command for all clients to reapply
       for (var humanId in clients) {
-        if (humanId != command.objectId) {
-          var position = world.getObject(humanId).coords
-          command.coords = position
-          console.log("sending command to user" + humanId)
-          clients[humanId].emit('command', command);
-        }
+        console.log("sending command to user" + humanId)
+        clients[humanId].emit('command', command);
       }
 
     } catch (e) {

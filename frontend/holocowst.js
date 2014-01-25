@@ -6,17 +6,18 @@
 
   var inflater = new modules.inflater.Inflater()
 
-  var world, simulation
+  var world
+  var simulation = new modules.simulation.Simulation()
 
   var sprites = {}
 
   var socket = io.connect()
   socket.on('world_data', function (data) {
     world = inflater.inflate(data).world
-    simulation = new modules.simulation.Simulation(world)
-    var ticker = new modules.ticker.Ticker(simulation)
+    simulation.setWorld(world)
 
     if (myId !== undefined && stage === undefined) {
+      var ticker = new modules.ticker.Ticker(simulation)
       Start()
     }
   })
@@ -27,6 +28,7 @@
 
     myId = data
     if (world !== undefined && stage === undefined) {
+      var ticker = new modules.ticker.Ticker(simulation)
       Start()
     }
   })
@@ -101,7 +103,8 @@
 
     if (lastDirection != direction && direction != "") {
       console.log("Sending MovementStart command to server with direction: " + direction)
-      var command = new modules.commands.MovementStart(0, myId, direction)
+      var myHuman = world.getObject(myId)
+      var command = new modules.commands.MovementStart(world.getCurrentFrameNum(), myId, direction, myHuman.coords)
       socket.emit("command", command)
 
       simulation.applyCommand(command)

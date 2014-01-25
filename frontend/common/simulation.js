@@ -10,7 +10,12 @@
 
     this.world = world
 
+    this.setWorld = function (world) {
+      this.world = world
+    }
+
     this.applyCommand = function (command) {
+
       var object = this.world.getObject(command.objectId)
       if (object === undefined) {
         console.log("Command for unknown objectId:" + command.objectId)
@@ -19,9 +24,7 @@
 
       switch (command.commandName) {
         case "MovementStart":
-          if (command.coords !== undefined) {
-            object.coords = command.coords
-          }
+          object.coords = command.coords
 
           object.velocity = command.direction.mul(command.speed)
           object.beingMoved = true
@@ -37,6 +40,9 @@
     this.simulateTick = function () {
 
       this.world.increaseCurrentFrameNum()
+      if (this.world.getCurrentFrameNum() % 1000 == 0) {
+        console.log("Current frame number: " + this.world.getCurrentFrameNum())
+      }
 
       for (objectId in this.world.getAllObjects()) {
         var object = this.world.getObject(objectId)

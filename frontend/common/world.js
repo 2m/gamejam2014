@@ -13,6 +13,10 @@
       return this.currentFrameNum
     }
 
+    this.setCurrentFrameNum = function(frameNum) {
+      this.currentFrameNum = frameNum
+    }
+
     this.increaseCurrentFrameNum = function() {
       this.currentFrameNum += 1
     }
