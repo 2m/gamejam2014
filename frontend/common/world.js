@@ -7,26 +7,26 @@
     this.cows = {}              // cow_id => cow
     this.flowers = {}           // flower_id => flower
 
-    this.objects = {}           // humans cows and flowers in one object pool
-
-    // todo(aistis): make private
-    this.addObject = function(objectId, object) {
-      if (this.objects[objectId]) {
-        throw "object with id " + objectId + " already exists"
+    // humans cows and flowers in one object pool
+    this.getAllObjects = function() {
+      var allObjects = {}
+      for (var id in this.humans) {
+        allObjects[id] = this.humans[id]
       }
-
-      this.objects[objectId] = object
-    }
-
-    this.removeObject = function(objectId) {
-      delete this.objects[objectId]
+      for (var id in this.cows) {
+        allObjects[id] = this.cows[id]
+      }
+      for (var id in this.flowers) {
+        allObjects[id] = this.flowers[id]
+      }
+      return allObjects
     }
 
     this.getObject = function(objectId) {
-      return this.objects[objectId]
+      return this.getAllObjects()[objectId]
     }
 
-    this.get_new_human_id = function(){
+    this.getNewHumanId = function(){
       var human_id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
 	  /[xy]/g, function(c) {
 	    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -39,7 +39,7 @@
      * Returns humand_id
      */
     this.addHuman = function(human) {
-      var humanId = human.id || this.get_new_human_id()
+      var humanId = human.id || this.getNewHumanId()
 
       if (!human.id) {
       	human.id = humanId
@@ -49,8 +49,6 @@
         throw "human with id " + humanId + " already exists"
       }
       this.humans[humanId] = human
-
-      this.addObject(humanId, human)
 
       return humanId
     }

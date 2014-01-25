@@ -14,7 +14,8 @@ exports.shouldApplyMovementStartCommand = function(test) {
   s.applyCommand(c)
 
   test.ok(h.velocity.x == 0, "human should not be moving sideways")
-  test.ok(h.velocity.y == -1, "human should be moving upwards")
+  test.ok(h.velocity.y != 0, "human should be moving upwards")
+  test.ok(h.beingMoved == true, "human should be moving upwards")
 
   test.done()
 }
@@ -26,14 +27,12 @@ exports.shouldApplyMovementEndCommand = function(test) {
   var h = new components.Human("human")
   var c = new commands.MovementEnd(1, "human")
 
-  h.velocity.x = 12
-  h.velocity.y = 2
+  h.beingMoved = true
 
   w.addHuman(h)
   s.applyCommand(c)
 
-  test.ok(h.velocity.x == 0, "human should not be moving sideways")
-  test.ok(h.velocity.y == 0, "human should not be moving vertically")
+  test.ok(h.beingMoved == false, "human should not be being moved")
 
   test.done()
 }
@@ -50,11 +49,11 @@ exports.shouldMovePlayerWhenTicked = function(test) {
   w.addHuman(h)
   s.simulateTick()
 
-  test.ok(h.coords.x == 1, "human should have moved to the right")
-  test.ok(h.coords.y == 1, "human should have moved down")
+  test.notEqual(h.coords.x, 0)
+  test.notEqual(h.coords.y, 0)
 
-  test.ok(h.velocity.x == 0.8, "human sideways velocity should have degraded")
-  test.ok(h.velocity.y == 0.8, "human vertical velocity should have downgraded")
+  test.notEqual(h.velocity.x, 1)
+  test.notEqual(h.velocity.y, 1)
 
   test.done()
 }

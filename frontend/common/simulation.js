@@ -31,7 +31,7 @@
     }
 
     this.simulateTick = function () {
-      for (objectId in this.world.objects) {
+      for (objectId in this.world.getAllObjects()) {
         var object = this.world.getObject(objectId)
         object.coords = object.coords.add(object.velocity)
 
