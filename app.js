@@ -27,8 +27,14 @@ io.on('connection', function (socket) {
 
   clients[humanId] = socket
 
-  socket.emit('world_data', new commands.FullWorld(world));
+  // let the new client know of its own id
   socket.emit('human_id', humanId);
+
+  // new player connected and was added to the world
+  // lets send the new world to all players
+  for (var humanId in clients) {
+    clients[humanId].emit('world_data', new commands.FullWorld(world));
+  }
 
   socket.on('command', function (command) {
     try {

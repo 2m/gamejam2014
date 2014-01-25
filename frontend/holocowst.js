@@ -19,7 +19,7 @@
     console.log(world)
     simulation = new modules.simulation.Simulation(world)
 
-    if (myId !== undefined) {
+    if (myId !== undefined && stage === undefined) {
       Start()
     }
   })
@@ -29,7 +29,7 @@
     console.log(data)
 
     myId = data
-    if (world !== undefined) {
+    if (world !== undefined && stage === undefined) {
       Start()
     }
   })
@@ -55,13 +55,6 @@
     s.graphics.beginBitmapFill(new BitmapData("asphalt.jpg"))
     s.graphics.drawRect(0,0,stage.stageWidth, stage.stageHeight)
     stage.addChild(s)
-
-    // create sprites for all humans
-    for (objectId in world.getAllObjects()) {
-      console.log("Creating sprite for:" + objectId)
-      var sprite = createNewHumanSprite()
-      sprites[objectId] = sprite
-    }
 
     // events
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown)
@@ -136,14 +129,18 @@
   {
     simulation.simulateTick()
 
-    for (objectId in world.getAllObjects()) {
-      var sprite = sprites[objectId]
-      if (sprite !== undefined) {
-        var object = world.getAllObjects()[objectId]
+    for (objectId in world.humans) {
+      var object = world.humans[objectId]
 
-        sprite.x = object.coords.x
-        sprite.y = object.coords.y
+      var sprite = sprites[objectId]
+      if (sprite === undefined) {
+        console.log("Creating sprite for:" + objectId)
+        sprite = createNewHumanSprite()
+        sprites[objectId] = sprite
       }
+
+      sprite.x = object.coords.x
+      sprite.y = object.coords.y
     }
   }
 })()
