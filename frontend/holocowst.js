@@ -60,8 +60,10 @@
 
     // background
     var s = new Sprite()
-    s.graphics.beginBitmapFill(new BitmapData("asphalt.jpg"))
-    s.graphics.drawRect(0,0,stage.stageWidth, stage.stageHeight)
+    var bg_tile = new BitmapData("bg_grid.png")
+    s.graphics.beginBitmapFill(bg_tile)
+    s.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight)
+    s.graphics.endFill()
     stage.addChild(s)
 
     // events
