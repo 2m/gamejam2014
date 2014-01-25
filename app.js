@@ -12,6 +12,7 @@ var clients = {}
 var simulation = require('./frontend/common/simulation')
 var worldModule = require('./frontend/common/world')
 var components = require('./frontend/common/components')
+var commands = require('./frontend/common/commands')
 var inflater = new (require('./frontend/common/inflater').Inflater)()
 
 var world = new worldModule.World()
@@ -26,7 +27,7 @@ io.on('connection', function (socket) {
 
   clients[humanId] = socket
 
-  socket.emit('whole_state', world);
+  socket.emit('world_data', new commands.FullWorld(world));
   socket.emit('human_id', humanId);
 
   socket.on('command', function (command) {

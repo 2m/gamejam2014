@@ -4,6 +4,7 @@
 
   exports["MovementStart"] = MovementStart
   exports["MovementEnd"] = MovementEnd
+  exports["FullWorld"] = FullWorld
 
   function MovementStart(frameId, objectId, direction) {
     this.commandName = "MovementStart"
@@ -39,6 +40,23 @@
 
   MovementEnd.inflate = function (command) {
     return new MovementEnd(command.frameId, command.objectId)
+  }
+
+  function FullWorld(world) {
+    this.commandName = "FullWorld"
+    this.world = world
+  }
+
+  FullWorld.inflate = function (command) {
+    var worldData = command.world
+
+    var world = new (require("./world").World)()
+    for (objectId in worldData.humans) {
+      var inflatedHuman = require("./components").Human.inflate(worldData.humans[objectId])
+      world.addHuman(inflatedHuman)
+    }
+
+    return world
   }
 
 })(typeof module === 'undefined' ? this['modules']['commands'] = {} : module.exports)

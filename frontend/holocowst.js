@@ -4,10 +4,9 @@
 
   var myId
 
-  var world = new modules.world.World()
-  var simulation = new modules.simulation.Simulation(world)
+  var inflater = new modules.inflater.Inflater()
 
-  console.log(simulation)
+  var world, simulation
 
   var sprites = {}
 
@@ -16,16 +15,23 @@
     console.log("Got world data.")
     console.log(data)
 
+    world = inflater.inflate(data)
+    console.log(world)
+    simulation = new modules.simulation.Simulation(world)
+
+    if (myId !== undefined) {
+      Start()
+    }
   })
 
   socket.on('human_id', function (data) {
     console.log("Got my human_id.")
     console.log(data)
 
-    myId = world.addHuman(new modules.components.Human(data))
-    var sprite = createNewHumanSprite()
-
-    sprites[myId] = sprite
+    myId = data
+    if (world !== undefined) {
+      Start()
+    }
   })
 
   function createNewHumanSprite() {
@@ -49,6 +55,13 @@
     s.graphics.beginBitmapFill(new BitmapData("asphalt.jpg"))
     s.graphics.drawRect(0,0,stage.stageWidth, stage.stageHeight)
     stage.addChild(s)
+
+    // create sprites for all humans
+    for (objectId in world.getAllObjects()) {
+      console.log("Creating sprite for:" + objectId)
+      var sprite = createNewHumanSprite()
+      sprites[objectId] = sprite
+    }
 
     // events
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown)
@@ -123,16 +136,14 @@
   {
     simulation.simulateTick()
 
-    for (objectId in world.objects) {
+    for (objectId in world.getAllObjects()) {
       var sprite = sprites[objectId]
       if (sprite !== undefined) {
-        var object = world.objects[objectId]
+        var object = world.getAllObjects()[objectId]
 
         sprite.x = object.coords.x
         sprite.y = object.coords.y
       }
     }
   }
-
-  Start()
 })()

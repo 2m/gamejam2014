@@ -55,10 +55,29 @@
     this.beingMoved = false
   }
 
+  Human.inflate = function(data) {
+    var coords = new Vector(data.coords.x, data.coords.y)
+    var velocity = new Vector(data.velocity.x, data.velocity.y)
+    var human = new Human()
+    human.id = data.id
+    human.coords = coords
+    human.velocity = velocity
+    human.beingMoved = data.beingMoved
+    return human
+  }
+
   function Cow(id) {
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
+  }
+
+  Cow.inflate = function(data) {
+    var coords = new Vector(data.coords.x, data.coords.y)
+    var velocity = new Vector(data.velocity.x, data.velocity.y)
+    var cow = new Cow()
+    cow.id = data.id
+    return cow
   }
 
   // this makes module work in nodejs as well as in browser

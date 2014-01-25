@@ -9,7 +9,8 @@
       switch (command.commandName) {
         case "MovementStart": return commands.MovementStart.inflate(command)
         case "MovementEnd": return commands.MovementEnd.inflate(command)
-        default: throw new Exception("I dunno how to inflate: " + command.commandName)
+        case "FullWorld": return commands.FullWorld.inflate(command)
+        default: throw ("I dunno how to inflate: " + command.commandName)
       }
     }
   }
