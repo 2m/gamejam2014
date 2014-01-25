@@ -39,12 +39,16 @@
 
   function createNewHumanSprite() {
     var sprite = new Sprite()
-    sprite.x = stage.stageWidth/2
-    sprite.y = stage.stageHeight/2
-    var cb = new Bitmap(new BitmapData("car.png"))
-    cb.x = -123
-    cb.y = -50
+    var cb = new Bitmap(new BitmapData("human.png"))
+    cb.x = -21
+    cb.y = -100
     sprite.addChild(cb)
+
+    // debug, feet point
+    sprite.graphics.beginFill (0, 1.0);
+    sprite.graphics.drawCircle(0, 0, 3)
+    sprite.graphics.endFill()
+
     stage.addChild(sprite)
     return sprite
   }

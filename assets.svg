@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="assets.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="256.3055"
+     inkscape:cy="492.35225"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="851"
+     inkscape:window-height="705"
+     inkscape:window-x="188"
+     inkscape:window-y="194"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff66ff;fill-opacity:1;fill-rule:evenodd"
+       id="rect4035"
+       width="991.42859"
+       height="794.28571"
+       x="-222.85716"
+       y="200.93359"
+       inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/rect4035.png"
+       inkscape:export-xdpi="43"
+       inkscape:export-ydpi="43" />
+    <g
+       id="g3023"
+       transform="matrix(0.88407841,0,0,0.88407841,-355.5518,251.65895)"
+       inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/human.png"
+       inkscape:export-xdpi="23.518368"
+       inkscape:export-ydpi="23.518368"
+       style="fill:#ffffff">
+      <rect
+         y="135.21931"
+         x="242.85715"
+         height="182.85715"
+         width="182.85715"
+         id="rect2985"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="300.93359"
+         x="291.42859"
+         height="162.85715"
+         width="85.714287"
+         id="rect2985-7"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="30.933615"
+         x="288.57141"
+         height="91.428574"
+         width="85.714287"
+         id="rect2985-7-4"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+    </g>
+    <g
+       id="g4026"
+       transform="translate(-24.243661,-105.05586)"
+       inkscape:export-filename="/home/aistis/dev/gamejam2014/frontend/cow.png"
+       inkscape:export-xdpi="22.94824"
+       inkscape:export-ydpi="22.94824"
+       style="fill:#ffffff">
+      <rect
+         y="472.16199"
+         x="120.82926"
+         height="169.96214"
+         width="334.25888"
+         id="rect3028"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="595.7699"
+         x="120.82926"
+         height="169.96214"
+         width="50.98864"
+         id="rect3030"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="595.7699"
+         x="387.10327"
+         height="169.96214"
+         width="52.404991"
+         id="rect3030-3"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="576.45209"
+         x="178.85843"
+         height="109.35299"
+         width="100.89231"
+         id="rect3030-3-0"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="635.04089"
+         x="197.04123"
+         height="79.048416"
+         width="24.120718"
+         id="rect3030-3-0-7"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="634.7793"
+         x="237.30435"
+         height="79.048416"
+         width="24.120718"
+         id="rect3030-3-0-7-0"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+      <rect
+         y="451.98248"
+         x="420.45056"
+         height="90.114288"
+         width="117.58153"
+         id="rect3028-8-3"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd" />
+    </g>
+  </g>
+</svg>
