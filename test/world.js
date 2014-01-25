@@ -26,3 +26,12 @@ exports.twoHumansShouldBeAdded = function(test) {
 
   test.done()
 }
+
+
+exports.humanShouldHaveIdWhenAddedToWorld = function(test) {
+  var world = new worldModule.World()
+  var human = new components.Human()
+  world.addHuman(human)
+  test.ok(human.id !== undefined)
+  test.done()
+}

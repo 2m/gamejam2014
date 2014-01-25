@@ -41,6 +41,10 @@
     this.addHuman = function(human) {
       var humanId = human.id || this.get_new_human_id()
 
+      if (!human.id) {
+      	human.id = humanId
+      }
+
       if (this.humans[humanId]) {
         throw "human with id " + humanId + " already exists"
       }
