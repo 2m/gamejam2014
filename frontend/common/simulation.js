@@ -33,6 +33,10 @@
     this.simulateTick = function () {
       for (objectId in this.world.getAllObjects()) {
         var object = this.world.getObject(objectId)
+
+        collidingPairs = this.getCollisions(this.world.objects)
+
+        // updates coordinates and velocity
         object.coords = object.coords.add(object.velocity)
 
         if (!object.beingMoved) {
@@ -40,6 +44,34 @@
         }
       }
     }
+
+    this.getCollisions = function(objects) {
+      var keys = Object.keys(objects)
+      var collision_pairs = []
+
+      for (var outer_index = 0; outer_index < keys.length; outer_index++) {
+
+        var outer_key = keys[outer_index]
+        var outer = objects[outer_key]
+
+        // object has no bounding box
+        if (!outer.boundingBox) {
+          continue;
+        }
+
+        for (var inner_index = outer_index + 1; inner_index < keys.lenght; inner_index++) {
+          var inner_key = keys[inner_index]
+          var inner = objects[inner_key]
+
+          // object has no bounding box
+          if (!outer.boundingBox) {
+            continue;
+          }
+        }
+      }
+
+    }
+
   }
 
 })(typeof module === 'undefined' ? this['modules']['simulation'] = {} : module.exports)
