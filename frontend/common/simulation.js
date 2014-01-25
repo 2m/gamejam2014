@@ -38,4 +38,4 @@
     }
   }
 
-})(typeof module === 'undefined' ? this['simulation'] = {} : module.exports)
+})(typeof module === 'undefined' ? this['modules']['simulation'] = {} : module.exports)

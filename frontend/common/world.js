@@ -34,7 +34,7 @@
 	  })
       return human_id
     }
-    
+
     /**
      * Returns humand_id
      */
@@ -62,4 +62,4 @@
   }
 
   // this makes module work in nodejs as well as in browser
-})(typeof module === 'undefined' ? this['components'] = {}: module.exports);
+})(typeof module === 'undefined' ? this['modules']['world'] = {} : module.exports)

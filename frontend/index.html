@@ -2,14 +2,22 @@
   <head>
     <script src="./socket.io.js"></script>
     <script>
+      var modules = {}
+
       function require(path) {
         console.log("This needs to be included: " + path)
         var pathList = path.split("/")
-        return this[pathList[pathList.length - 1]]
+        return modules[pathList[pathList.length - 1]]
       }
     </script>
     <script src="./common/components.js"></script>
     <script src="./common/commands.js"></script>
+    <script src="./common/simulation.js"></script>
+    <script src="./common/world.js"></script>
+    <script>
+      console.log(modules.components)
+      console.log(modules.simulation)
+    </script>
   </head>
   <body>
     <canvas id="c"></canvas>

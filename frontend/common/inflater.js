@@ -14,4 +14,4 @@
     }
   }
 
-})(typeof module === 'undefined' ? this['inflater'] = {} : module.exports)
+})(typeof module === 'undefined' ? this['modules']['inflater'] = {} : module.exports)

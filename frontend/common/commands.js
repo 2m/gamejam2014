@@ -21,7 +21,7 @@
       case "NW": this.direction = new components.Vector(-1, -1); break;
     }
 
-    this.speed = 1
+    this.speed = 10
   }
 
   MovementStart.inflate = function (command) {
@@ -41,4 +41,4 @@
     return new MovementEnd(command.frameId, command.objectId)
   }
 
-})(typeof module === 'undefined' ? this['commands'] = {} : module.exports)
+})(typeof module === 'undefined' ? this['modules']['commands'] = {} : module.exports)

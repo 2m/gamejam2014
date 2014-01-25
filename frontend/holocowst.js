@@ -2,7 +2,14 @@
   var stage, car, lastDirection, speedX = 0, speedY = 0
   var l, r, u, d
 
-  var myId = ""
+  var myId
+
+  var world = new modules.world.World()
+  var simulation = new modules.simulation.Simulation(world)
+
+  console.log(simulation)
+
+  var sprites = {}
 
   var socket = io.connect()
   socket.on('world_data', function (data) {
@@ -14,8 +21,24 @@
   socket.on('human_id', function (data) {
     console.log("Got my human_id.")
     console.log(data)
-    myId = data
+
+    myId = world.addHuman(new modules.components.Human(data))
+    var sprite = createNewHumanSprite()
+
+    sprites[myId] = sprite
   })
+
+  function createNewHumanSprite() {
+    var sprite = new Sprite()
+    sprite.x = stage.stageWidth/2
+    sprite.y = stage.stageHeight/2
+    var cb = new Bitmap(new BitmapData("car.png"))
+    cb.x = -123
+    cb.y = -50
+    sprite.addChild(cb)
+    stage.addChild(sprite)
+    return sprite
+  }
 
   function Start()
   {
@@ -27,23 +50,13 @@
     s.graphics.drawRect(0,0,stage.stageWidth, stage.stageHeight)
     stage.addChild(s)
 
-    // car
-    car = new Sprite()
-    car.x = stage.stageWidth/2
-    car.y = stage.stageHeight/2
-    var cb = new Bitmap(new BitmapData("car.png"))
-    cb.x = -123
-    cb.y = -50
-    car.addChild(cb)
-    stage.addChild(car)
-
     // events
-    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKD)
-    stage.addEventListener(KeyboardEvent.KEY_UP  , onKU)
-    stage.addEventListener(Event.ENTER_FRAME     , onEF)
+    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown)
+    stage.addEventListener(KeyboardEvent.KEY_UP  , onKeyUp)
+    stage.addEventListener(Event.ENTER_FRAME     , onEnterFrame)
   }
 
-  function onKD (e)
+  function onKeyDown(e)
   {
     if (e.keyCode == 37) l = true
     if (e.keyCode == 38) u = true
@@ -60,8 +73,8 @@
     }
 
     function addSidewaysDirection(direction) {
-      if (l) return direction + "E"
-      else if (r) return direction + "W"
+      if (l) return direction + "W"
+      else if (r) return direction + "E"
       return direction
     }
 
@@ -80,14 +93,16 @@
 
     if (lastDirection != direction && direction != "") {
       console.log("Sending MovementStart command to server with direction: " + direction)
-      var command = new commands.MovementStart(0, myId, direction)
+      var command = new modules.commands.MovementStart(0, myId, direction)
       socket.emit("command", command)
+
+      simulation.applyCommand(command)
     }
 
     lastDirection = direction
   }
 
-  function onKU (e)
+  function onKeyUp(e)
   {
     if(e.keyCode == 37) l = false
     if(e.keyCode == 38) u = false
@@ -97,24 +112,26 @@
     lastDirection = ""
     if (!l && !u && !r && !d) {
       console.log("Sending MovementEnd command to server.")
-      var command = new commands.MovementEnd(0, myId)
+      var command = new modules.commands.MovementEnd(0, myId)
       socket.emit("command", command)
+
+      simulation.applyCommand(command)
     }
   }
 
-  function onEF (e)
+  function onEnterFrame (e)
   {
-    speedY *= 0.9
-    speedX *= 0.9
+    simulation.simulateTick()
 
-    if(d) speedY += 1 + speedY * 0.06
-    if(u) speedY -= 1 - speedY * 0.06
+    for (objectId in world.objects) {
+      var sprite = sprites[objectId]
+      if (sprite !== undefined) {
+        var object = world.objects[objectId]
 
-    if(r) speedX += 1 + speedX * 0.06
-    if(l) speedX -= 1 - speedX * 0.06
-
-    car.x += speedX
-    car.y += speedY
+        sprite.x = object.coords.x
+        sprite.y = object.coords.y
+      }
+    }
   }
 
   Start()
