@@ -6,28 +6,16 @@ var server = app.listen(process.env.PORT || 8080);
 
 var io = require('socket.io')(server);
 
-// map of soccet to player id
+// map of player_id to socket
 var clients = {}
 
-var simulation = require('./frontend/common/simulation')
-var worldModule = require('./frontend/common/world')
 var components = require('./frontend/common/components')
 var commands = require('./frontend/common/commands')
 var inflater = new (require('./frontend/common/inflater').Inflater)()
 
-var world = new worldModule.World()
-var sim = new simulation.Simulation(world)
-
-var lastTickTimestamp = Date.now()
-setInterval(function () {
-  var frameTime = Date.now() - lastTickTimestamp
-
-  while (frameTime > 0) {
-    sim.simulateTick()
-    frameTime -= 15
-  }
-  lastTickTimestamp = Date.now()
-}, 15)
+var world = new (require('./frontend/common/world').World)()
+var simulation = new (require('./frontend/common/simulation').Simulation)(world)
+var ticker = new (require('./frontend/common/ticker').Ticker)(simulation)
 
 setInterval(function () {
   //sendWorldSync()
@@ -42,7 +30,6 @@ function sendWorldSync() {
 io.on('connection', function (socket) {
   console.log("received new connection: " + socket);
 
-  // todo(aistis): add human to world
   var human = new components.Human()
   var humanId = world.addHuman(human)
 
@@ -58,7 +45,7 @@ io.on('connection', function (socket) {
   socket.on('command', function (command) {
     try {
       console.log("received command:" + command.commandName)
-      sim.applyCommand(inflater.inflate(command))
+      simulation.applyCommand(inflater.inflate(command))
 
       // resend the command for all other clients to reapply
       for (var humanId in clients) {

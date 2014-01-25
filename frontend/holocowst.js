@@ -14,17 +14,7 @@
   socket.on('world_data', function (data) {
     world = inflater.inflate(data)
     simulation = new modules.simulation.Simulation(world)
-
-    var lastTickTimestamp = Date.now()
-    setInterval(function () {
-      var frameTime = Date.now() - lastTickTimestamp
-
-      while (frameTime > 0) {
-        simulation.simulateTick()
-        frameTime -= 15
-      }
-      lastTickTimestamp = Date.now()
-    }, 15)
+    var ticker = new modules.ticker.Ticker(simulation)
 
     if (myId !== undefined && stage === undefined) {
       Start()
