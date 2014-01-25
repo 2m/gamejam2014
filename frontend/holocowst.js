@@ -1,5 +1,5 @@
 (function() {
-  var stage, car, angle = 0, speed = 0, lastDirection = ""
+  var stage, car, lastDirection, speedX = 0, speedY = 0
   var l, r, u, d
 
   var myId = ""
@@ -78,7 +78,7 @@
       direction = addSidewaysDirection(direction)
     }
 
-    if (lastDirection != direction) {
+    if (lastDirection != direction && direction != "") {
       console.log("Sending MovementStart command to server with direction: " + direction)
       var command = new commands.MovementStart(0, myId, direction)
       socket.emit("command", command)
@@ -93,20 +93,28 @@
     if(e.keyCode == 38) u = false
     if(e.keyCode == 39) r = false
     if(e.keyCode == 40) d = false
+
+    lastDirection = ""
+    if (!l && !u && !r && !d) {
+      console.log("Sending MovementEnd command to server.")
+      var command = new commands.MovementEnd(0, myId)
+      socket.emit("command", command)
+    }
   }
 
   function onEF (e)
   {
-    speed *= 0.9
-    if(u) speed += 1+speed*0.06
-    if(d) speed -= 1
+    speedY *= 0.9
+    speedX *= 0.9
 
-    if(r) angle += speed * 0.003
-    if(l) angle -= speed * 0.003
+    if(d) speedY += 1 + speedY * 0.06
+    if(u) speedY -= 1 - speedY * 0.06
 
-    car.rotation = angle*180/Math.PI
-    car.x += Math.cos(angle) * speed
-    car.y += Math.sin(angle) * speed
+    if(r) speedX += 1 + speedX * 0.06
+    if(l) speedX -= 1 - speedX * 0.06
+
+    car.x += speedX
+    car.y += speedY
   }
 
   Start()
