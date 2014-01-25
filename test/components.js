@@ -49,3 +49,14 @@ exports.boundBoxShouldConfirmPointInside = function(test) {
 
   test.done()
 }
+
+exports.boundBoxInvalidArguments = function(test) {
+  try {
+    new components.BoundingBox(10, 10, 5, 5)
+    test.ok(false)
+  } catch (e) {
+    test.ok(true)
+  }
+
+  test.done()
+}
