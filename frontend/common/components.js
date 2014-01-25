@@ -24,26 +24,47 @@
 
   Vector.Zero = new Vector(0, 0)
 
-  function BoundingBox(x1, y1, x2, y2) {
+  /**
+   * @param position type of vector
+   */
+  function BoundingBox(position, width, height) {
     // todo(aistis): validate input
 
-    if (x1 >= x2 || y1 >= y2) {
-      throw Exception("invalid arguments: x1 >= x2 || y1 >= y2")
-    }
-
-    this.x1 = x1
-    this.y1 = y1
-    this.x2 = x2
-    this.y2 = y2
+    this.position = position
+    this.width = width
+    this.height = height
 
     this.pointInside = function(x, y) {
-      if (x >= this.x1 && x <= this.x2
-          && y >= this.y1 && y <= this.y2)
+      var x1 = this.position.x - (this.width / 2)
+      var x2 = this.position.x + (this.width / 2)
+      var y1 = this.position.y - (this.height / 2)
+      var y2 = this.position.y + (this.height / 2)
+
+      if (x >= x1 && x <= x2
+          && y >= y1 && y <= y2)
       {
         return true;
       } else {
         return false;
       }
+    }
+
+    this.collidesWith = function(bbox) {
+      var x1 = bbox.position.x - (bbox.width / 2)
+      var x2 = bbox.position.x + (bbox.width / 2)
+      var y1 = bbox.position.y - (bbox.height / 2)
+      var y2 = bbox.position.y + (bbox.height / 2)
+
+      if (this.pointInside(x1, y1))
+        return true
+      if (this.pointInside(x1, y2))
+        return true
+      if (this.pointInside(x2, y1))
+        return true
+      if (this.pointInside(x2, y2))
+        return true
+
+      return false
     }
 
   }
