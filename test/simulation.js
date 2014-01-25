@@ -57,3 +57,21 @@ exports.shouldMovePlayerWhenTicked = function(test) {
 
   test.done()
 }
+
+
+exports.shouldCollide = function(test) {
+  var w = new world.World()
+  var s = new simulation.Simulation(w)
+  var h = new components.Human("human")
+  var c = new components.Cow("cow")
+
+  w.addHuman(h)
+  w.addCow(c)
+
+  var collisions = s.getCollisions(w.getAllObjects())
+
+  // expects cow and humman to colide
+  test.equal(collisions.length, 1)
+
+  test.done()
+}

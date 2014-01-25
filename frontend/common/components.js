@@ -50,6 +50,9 @@
     }
 
     this.collidesWith = function(bbox) {
+      if (this.pointInside(bbox.position.x, bbox.position.y))
+        return true
+
       var x1 = bbox.position.x - (bbox.width / 2)
       var x2 = bbox.position.x + (bbox.width / 2)
       var y1 = bbox.position.y - (bbox.height / 2)
@@ -74,6 +77,7 @@
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
     this.beingMoved = false
+    this.bbox = new BoundingBox(this.coords, 30, 40)
   }
 
   Human.inflate = function(data) {
@@ -91,6 +95,7 @@
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
+    this.bbox = new BoundingBox(this.coords, 30, 40)
   }
 
   Cow.inflate = function(data) {

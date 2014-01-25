@@ -58,6 +58,7 @@ exports.boundboxShouldColideWithBoundBox = function(test) {
   var inner = new components.BoundingBox(position, 10, 10)
 
   test.ok(outer.collidesWith(inner) == true)
+  test.ok(outer.collidesWith(outer) == true)
 
   inner.position = outsidePosition
   test.ok(outer.collidesWith(inner) == false)

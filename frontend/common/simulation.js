@@ -34,8 +34,6 @@
       for (objectId in this.world.getAllObjects()) {
         var object = this.world.getObject(objectId)
 
-        collidingPairs = this.getCollisions(this.world.objects)
-
         // updates coordinates and velocity
         object.coords = object.coords.add(object.velocity)
 
@@ -49,8 +47,7 @@
       var keys = Object.keys(objects)
       var collision_pairs = []
 
-      for (var outer_index = 0; outer_index < keys.length; outer_index++) {
-
+      for (var outer_index = 0; outer_index < keys.length - 1; outer_index++) {
         var outer_key = keys[outer_index]
         var outer = objects[outer_key]
 
@@ -60,7 +57,7 @@
         }
 
         for (var inner_index = outer_index + 1;
-             inner_index < keys.lenght; inner_index++) {
+             inner_index < keys.length; inner_index++) {
 
           var inner_key = keys[inner_index]
           var inner = objects[inner_key]
@@ -70,12 +67,13 @@
             continue;
           }
 
-          if (inner.bbox.collides(outer.bbox)) {
+          if (inner.bbox.collidesWith(outer.bbox)) {
             collision_pairs.push([outer, inner])
           }
         }
       }
 
+      return collision_pairs
     }
 
   }
