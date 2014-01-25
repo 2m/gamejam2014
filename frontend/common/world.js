@@ -3,16 +3,16 @@
   exports["World"] = World
 
   function World() {
-    this.humans = {} 		// human_id => human
-    this.cows = {}		// cow_id => cow
-    this.flowers = {}		// flower_id => flower
+    this.humans = {}            // human_id => human
+    this.cows = {}              // cow_id => cow
+    this.flowers = {}           // flower_id => flower
 
-    this.objects = {}		// humans cows and flowers in one object pool
+    this.objects = {}           // humans cows and flowers in one object pool
 
     // todo(aistis): make private
     this.addObject = function(objectId, object) {
       if (this.objects[objectId]) {
-	throw "object with id " + objectId + " already exists"
+        throw "object with id " + objectId + " already exists"
       }
 
       this.objects[objectId] = object
@@ -25,7 +25,7 @@
     this.getObject = function(objectId) {
       return this.objects[objectId]
     }
-    
+
     /**
      * Returns humand_id
      */
@@ -33,7 +33,7 @@
       var humanId = "h0";
 
       if (this.humans[humanId]) {
-	throw "human with id " + humanId + " already exists"
+        throw "human with id " + humanId + " already exists"
       }
       this.humans[humanId] = human
 
