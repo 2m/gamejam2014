@@ -6,29 +6,44 @@ var server = app.listen(process.env.PORT || 8080);
 
 var io = require('socket.io')(server);
 
+// map of soccet to player id
 var clients = {}
 
+var simulation = require('./frontend/common/simulation')
+var worldModule = require('./frontend/common/world')
+var components = require('./frontend/common/components')
+
+var world = new worldModule.World()
+var sim = new simulation.Simulation(world)
+
 io.on('connection', function (socket) {
-  console.log("someones connecting");
+  console.log("received new connection: " + socket);
 
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log("got new car" + data);
-    clients[data.id] = socket
-  })
+  // todo(aistis): add human to world
+  var human = new components.Human()
+  var humanId = world.addHuman(human)
 
-  socket.on('car_coords', function (data) {
-    console.log(data);
-    for (var key in clients) {
-      if (key != data.id) {
-        console.log("sending data to " + key)
-        clients[key].emit("other_car", data)
-      }
+  clients[humanId] = socket
+
+  socket.emit('whole_state', world);
+  socket.emit('human_id', humanId);
+  
+  socket.on('command', function (command) {
+    try {
+      console.log("received command: " + command)
+      sim.applyCommand(command)
+    } catch (e) {
+      console.log(e)
     }
   })
 
   socket.on('disconnect', function() {
-    console.log("disconnected")
-  });
+    try {
+      console.log("disconnected: " + socket)
+      world.removeHuman(humanId)
+    } catch (e){
+      console.log(e)
+    }
+  })
   
-});
+})
