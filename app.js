@@ -18,8 +18,8 @@ var simulation = new (require('./frontend/common/simulation').Simulation)(world)
 var ticker = new (require('./frontend/common/ticker').Ticker)(simulation)
 
 setInterval(function () {
-  //sendWorldSync()
-}, 500)
+  sendWorldSync()
+}, 5000)
 
 function sendWorldSync() {
   for (var humanId in clients) {
