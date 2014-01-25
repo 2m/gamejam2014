@@ -18,6 +18,10 @@ var inflater = new (require('./frontend/common/inflater').Inflater)()
 var world = new worldModule.World()
 var sim = new simulation.Simulation(world)
 
+setInterval(function () {
+  sim.simulateTick()
+}, 15)
+
 io.on('connection', function (socket) {
   console.log("received new connection: " + socket);
 

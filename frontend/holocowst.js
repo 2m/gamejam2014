@@ -17,7 +17,11 @@
 
     world = inflater.inflate(data)
     console.log(world)
+    
     simulation = new modules.simulation.Simulation(world)
+    setInterval(function () {
+      simulation.simulateTick()
+    }, 15)
 
     if (myId !== undefined && stage === undefined) {
       Start()
@@ -127,8 +131,6 @@
 
   function onEnterFrame (e)
   {
-    simulation.simulateTick()
-
     for (objectId in world.humans) {
       var object = world.humans[objectId]
 
@@ -143,4 +145,5 @@
       sprite.y = object.coords.y
     }
   }
+
 })()
