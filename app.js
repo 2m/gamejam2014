@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
 
   socket.emit('whole_state', world);
   socket.emit('human_id', humanId);
-  
+
   socket.on('command', function (command) {
     try {
       console.log("received command: " + command)
@@ -45,5 +45,5 @@ io.on('connection', function (socket) {
       console.log(e)
     }
   })
-  
+
 })

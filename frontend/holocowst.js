@@ -1,38 +1,20 @@
 (function() {
-  var stage, car, angle = 0, speed = 0
+  var stage, car, angle = 0, speed = 0, lastDirection = ""
   var l, r, u, d
 
-  var myCarId = Math.floor((Math.random()*100)+1)
-  var counter = 0
+  var myId = ""
+
   var socket = io.connect()
-  socket.on('news', function (data) {
+  socket.on('world_data', function (data) {
+    console.log("Got world data.")
     console.log(data)
-    socket.emit('my other event', { id: "car_" + myCarId })
+
   })
 
-  var otherCars = {}
-  socket.on('other_car', function (data) {
-    console.log("got other_car message")
+  socket.on('human_id', function (data) {
+    console.log("Got my human_id.")
     console.log(data)
-
-    var otherCar = undefined
-    if (data.id in otherCars) {
-      otherCar = otherCars[data.id]
-    }
-    else {
-      console.log("creating new car " + data.id)
-      otherCar = new Sprite()
-      var cb = new Bitmap(new BitmapData("car.png"))
-      cb.x = -123
-      cb.y = -50
-      otherCar.addChild(cb)
-      stage.addChild(otherCar)
-
-      otherCars[data.id] = otherCar
-    }
-
-    otherCar.x = data.coords.x
-    otherCar.y = data.coords.y
+    myId = data
   })
 
   function Start()
@@ -63,10 +45,46 @@
 
   function onKD (e)
   {
-    if(e.keyCode == 37) l = true
-    if(e.keyCode == 38) u = true
-    if(e.keyCode == 39) r = true
-    if(e.keyCode == 40) d = true
+    if (e.keyCode == 37) l = true
+    if (e.keyCode == 38) u = true
+    if (e.keyCode == 39) r = true
+    if (e.keyCode == 40) d = true
+
+    if (l && r) {
+      r = false
+      l = false
+    }
+    if (u && d) {
+      u = false
+      d = false
+    }
+
+    function addSidewaysDirection(direction) {
+      if (l) return direction + "E"
+      else if (r) return direction + "W"
+      return direction
+    }
+
+    var direction = ""
+    if (u) {
+      direction = "N"
+      direction = addSidewaysDirection(direction)
+    }
+    else if (d) {
+      direction = "S"
+      direction = addSidewaysDirection(direction)
+    }
+    else {
+      direction = addSidewaysDirection(direction)
+    }
+
+    if (lastDirection != direction) {
+      console.log("Sending MovementStart command to server with direction: " + direction)
+      var command = new commands.MovementStart(0, myId, direction)
+      socket.emit("command", command)
+    }
+
+    lastDirection = direction
   }
 
   function onKU (e)
@@ -89,16 +107,6 @@
     car.rotation = angle*180/Math.PI
     car.x += Math.cos(angle) * speed
     car.y += Math.sin(angle) * speed
-
-    counter = (counter + 1) % 50
-    if (counter == 0) {
-      var data = {
-        id: "car_" + myCarId,
-        coords: { x: car.x, y: car.y }
-      }
-      console.log("sending data to server")
-      socket.emit('car_coords', data)
-    }
   }
 
   Start()

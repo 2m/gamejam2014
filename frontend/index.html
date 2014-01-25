@@ -1,12 +1,19 @@
 <html>
   <head>
+    <script src="./socket.io.js"></script>
+    <script>
+      function require(path) {
+        console.log("This needs to be included: " + path)
+        var pathList = path.split("/")
+        return this[pathList[pathList.length - 1]]
+      }
+    </script>
+    <script src="./common/components.js"></script>
+    <script src="./common/commands.js"></script>
   </head>
   <body>
-
     <canvas id="c"></canvas>
-
     <script type="text/javascript" src="ivank.js"></script>
-    <script src="./socket.io.js"></script>
     <script src="./holocowst.js"></script>
   </body>
 </html>
