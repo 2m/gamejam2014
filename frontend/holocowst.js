@@ -145,6 +145,15 @@
       sprite.x = object.coords.x
       sprite.y = object.coords.y
     }
+
+    // delete sprites for which we do not have world objects
+    for (objectId in sprites) {
+      if (!(objectId in world.humans)) {
+        console.log("Removing sprite which does not have a game object.")
+        stage.removeChild(sprites[objectId])
+        delete sprites[objectId]
+      }
+    }
   }
 
 })()
