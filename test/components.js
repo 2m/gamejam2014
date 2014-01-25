@@ -33,3 +33,19 @@ exports.cowShouldHaveRequiredComponents = function(test) {
 
   test.done()
 }
+
+
+exports.boundBoxShouldConfirmPointInside = function(test) {
+  var boundbox = new components.BoundingBox(5, 5, 10, 10)
+  var inside = false
+
+  test.ok(boundbox.pointInside(1, 5) == false)
+  test.ok(boundbox.pointInside(5, 1) == false)
+
+  test.ok(boundbox.pointInside(5, 5) == true)
+  test.ok(boundbox.pointInside(10, 10) == true)
+
+  test.ok(boundbox.pointInside(6, 6) == true)
+
+  test.done()
+}
