@@ -52,6 +52,7 @@
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
+    this.beingMoved = false
   }
 
   function Cow(id) {

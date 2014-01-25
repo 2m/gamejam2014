@@ -20,9 +20,10 @@
       switch (command.commandName) {
         case "MovementStart":
           object.velocity = command.direction.mul(command.speed)
+          object.beingMoved = true
           break
         case "MovementEnd":
-          object.velocity = components.Vector.Zero
+          object.beingMoved = false
           break
         default:
           console.log("Unknown command: " + command.commandName)
@@ -33,7 +34,10 @@
       for (objectId in this.world.objects) {
         var object = this.world.getObject(objectId)
         object.coords = object.coords.add(object.velocity)
-        object.velocity = object.velocity.mul(this.friction)
+
+        if (!object.beingMoved) {
+          object.velocity = object.velocity.mul(this.friction)
+        }
       }
     }
   }
