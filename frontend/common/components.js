@@ -12,6 +12,10 @@
       return new Vector(this.x + otherVector.x, this.y + otherVector.y)
     }
 
+    this.mul = function(scalar) {
+      return new Vecotr(this.x * scalar, this.y * scalar)
+    }
+
     this.toString = function() {
       return "[x:" + this.x + ", y:" + this.y + "]"
     }
@@ -28,4 +32,4 @@
   }
 
   // this makes module work in nodejs as well as in browser
-})(typeof module === 'undefined' ? this['components'] = {}: module.exports);
+})(typeof module === 'undefined' ? this['components'] = {} : module.exports)
