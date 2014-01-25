@@ -46,3 +46,23 @@ exports.shouldApplyMovementEndCommand = function(test) {
 
   test.done()
 }
+
+exports.shouldMovePlayerWhenTicked = function(test) {
+
+  var s = new simulation.Simulation()
+  var h = new components.Human("human")
+
+  h.velocity.x = 1
+  h.velocity.y = 1
+
+  s.addObject(h)
+  s.simulateTick()
+
+  test.ok(h.coords.x == 1, "human should have moved to the right")
+  test.ok(h.coords.y == 1, "human should have moved down")
+
+  test.ok(h.velocity.x == 0.8, "human sideways velocity should have degraded")
+  test.ok(h.velocity.y == 0.8, "human vertical velocity should have downgraded")
+
+  test.done()
+}

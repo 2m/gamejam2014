@@ -5,6 +5,9 @@
   exports["Simulation"] = Simulation
 
   function Simulation() {
+    // how much veolicty degrades per frame
+    this.friction = 0.8
+
     this.objects = {}
 
     this.addObject = function(object) {
@@ -26,6 +29,14 @@
           break
         default:
           console.log("Unknown command: " + command.commandName)
+      }
+    }
+
+    this.simulateTick = function () {
+      for (objectId in this.objects) {
+        var object = this.objects[objectId]
+        object.coords = object.coords.add(object.velocity)
+        object.velocity = object.velocity.mul(this.friction)
       }
     }
   }
