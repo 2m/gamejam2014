@@ -5,6 +5,7 @@
   exports["MovementStart"] = MovementStart
   exports["MovementEnd"] = MovementEnd
   exports["FullWorld"] = FullWorld
+  exports["Blast"] = Blast
 
   function MovementStart(frameId, objectId, direction, coords) {
     this.commandName = "MovementStart"
@@ -27,7 +28,7 @@
       this.direction = direction
     }
 
-    this.speed = 1
+    this.speed = 5
     this.coords = coords
   }
 
@@ -55,6 +56,18 @@
   FullWorld.inflate = function (data) {
     var world = require("./world").World.inflate(data.world)
     return new FullWorld(world)
+  }
+
+  function Blast(frameId, objectId) {
+    this.commandName = "Blast"
+    this.frameId = frameId
+    this.objectId = objectId
+    this.radius = 50
+    this.power = 20
+  }
+
+  Blast.inflate = function (data) {
+    return new Blast(data.frameId, data.objectId)
   }
 
 })(typeof module === 'undefined' ? this['modules']['commands'] = {} : module.exports)

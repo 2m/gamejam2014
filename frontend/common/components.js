@@ -30,6 +30,14 @@
       return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2))
     }
 
+    this.containsInRadius = function(otherVector, radius) {
+      return this.distanceTo(otherVector) <= radius
+    }
+
+    this.negate = function() {
+      return new Vector(-this.x, -this.y)
+    }
+
     this.normalize = function() {
       var length = this.length()
       if (length != 0) {

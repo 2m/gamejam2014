@@ -153,6 +153,14 @@
 
   function onKeyUp(e)
   {
+    if (e.keyCode == 32) {
+      console.log("Sending Blast command to server.")
+      var command = new modules.commands.Blast(0, myId)
+      socket.emit("command", command)
+
+      simulation.applyCommand(command)
+    }
+
     if(e.keyCode == 37) l = false
     if(e.keyCode == 38) u = false
     if(e.keyCode == 39) r = false

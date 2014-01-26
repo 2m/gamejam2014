@@ -37,6 +37,17 @@
         case "MovementEnd":
           object.beingMoved = false
           break
+        case "Blast":
+          var blastPosition = this.world.getObject(command.objectId).coords
+          for (cowId in this.world.getAllCows()) {
+            var cow = this.world.getObject(cowId)
+            if (blastPosition.containsInRadius(cow.coords, command.radius)) {
+              console.log("Blasting cow: " + cowId)
+              var cowMovementFromBlast = cow.coords.sub(blastPosition)
+              cow.velocity = cow.velocity.add(cowMovementFromBlast.normalize().mul(command.power))
+            }
+          }
+          break
         default:
           console.log("Unknown command: " + command.commandName)
       }
@@ -61,10 +72,12 @@
           }
         }
 
-        cow.velocity = nearestFlowerPos.sub(cow.coords).normalize().mul(this.cowSpeed)
+        var cowMovementToTheFlower = nearestFlowerPos.sub(cow.coords)
         if (minDistance < 5) {
-          cow.velocity = components.Vector.Zero
+          cowMovementToTheFlower = components.Vector.Zero
         }
+
+        cow.velocity = cow.velocity.add(cowMovementToTheFlower.normalize())
       }
 
       for (objectId in this.world.getAllObjects()) {
