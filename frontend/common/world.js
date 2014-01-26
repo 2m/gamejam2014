@@ -36,6 +36,14 @@
       return allObjects
     }
 
+    this.getAllCows = function() {
+      return this.cows;
+    }
+
+    this.getAllFlowers = function() {
+      return this.flowers;
+    }
+
     this.getObject = function(objectId) {
       return this.getAllObjects()[objectId]
     }

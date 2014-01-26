@@ -7,6 +7,7 @@
   function Simulation(world) {
     // how much veolicty degrades per frame
     this.friction = 0.8
+    this.cowSpeed = 2
 
     this.world = world
 
@@ -46,6 +47,24 @@
       this.world.increaseCurrentFrameNum()
       if (this.world.getCurrentFrameNum() % 1000 == 0) {
         console.log("Current frame number: " + this.world.getCurrentFrameNum())
+      }
+
+      for (cowId in this.world.getAllCows()) {
+        var cow = this.world.getObject(cowId)
+
+        var nearestFlowerPos, minDistance = 9999
+        for (flowerId in this.world.getAllFlowers()) {
+          var flower = this.world.getObject(flowerId)
+          if (cow.coords.distanceTo(flower.coords) < minDistance) {
+            minDistance = cow.coords.distanceTo(flower.coords)
+            nearestFlowerPos = flower.coords
+          }
+        }
+
+        cow.velocity = nearestFlowerPos.sub(cow.coords).normalize().mul(this.cowSpeed)
+        if (minDistance < 5) {
+          cow.velocity = components.Vector.Zero
+        }
       }
 
       for (objectId in this.world.getAllObjects()) {
