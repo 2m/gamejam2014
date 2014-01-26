@@ -95,7 +95,17 @@
         }
       }
 
-      for (objectId in this.world.getAllObjects()) {
+      var allObjects = this.world.getAllObjects()
+
+      // calculating collisions
+      var collidingObjects = this.getCollisions(allObjects)
+      for (var i = 0; i < collidingObjects.length; i++) {
+        var collisionPair = collidingObjects[i]
+        this.applyCollision(collisionPair)
+      }
+
+      // advacing movement
+      for (objectId in allObjects) {
         var object = this.world.getObject(objectId)
 
         // updates coordinates and velocity
@@ -134,13 +144,18 @@
             continue;
           }
 
-          if (inner.bbox.collidesWith(outer.bbox)) {
+          if (inner.bbox.collidesWith(outer, inner)) {
             collision_pairs.push([outer, inner])
           }
         }
       }
 
       return collision_pairs
+    }
+
+    this.applyCollision = function(collisionPair) {
+      // console.log("collision pair")
+      // console.log(collisionPair)
     }
 
   }

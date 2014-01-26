@@ -37,31 +37,43 @@ exports.cowShouldHaveRequiredComponents = function(test) {
 
 exports.boundBoxShouldConfirmPointInside = function(test) {
   var position = new components.Vector(7.5, 7.5)
+  var bbox = new components.BoundingBox( 5, 5)
   var bobject = {coords: position}
-  var boundbox = new components.BoundingBox(bobject, 5, 5)
-  var inside = false
 
-  test.ok(boundbox.pointInside(1, 5) == false)
-  test.ok(boundbox.pointInside(5, 1) == false)
+  test.ok(bbox.pointInside(bobject, 1, 5) == false)
+  test.ok(bbox.pointInside(bobject, 5, 1) == false)
 
-  test.ok(boundbox.pointInside(5, 5) == true)
-  test.ok(boundbox.pointInside(10, 10) == true)
+  test.ok(bbox.pointInside(bobject, 5, 5) == true)
+  test.ok(bbox.pointInside(bobject, 10, 10) == true)
 
-  test.ok(boundbox.pointInside(6, 6) == true)
+  test.ok(bbox.pointInside(bobject, 6, 6) == true)
 
   test.done()
 }
 
 exports.boundboxShouldColideWithBoundBox = function(test) {
-  var position = new components.Vector(5, 10)
-  var bobject = {coords: position}
-  var outsidePosition = new components.Vector(100, 50)
-  var bobjectOutside = {coords: outsidePosition}
-  var outer = new components.BoundingBox(bobject, 10, 10)
-  var inner = new components.BoundingBox(bobjectOutside, 10, 10)
+  var near = new components.Vector(5, 10)
+  var far = new components.Vector(100, 50)
+  var bbox = new components.BoundingBox(10, 10)
 
-  test.ok(outer.collidesWith(inner) == true)
-  test.ok(outer.collidesWith(outer) == true)
+  var outer = {coords: near, bbox: bbox}
+  var inner = {coords: far, bbox: bbox}
+
+  test.ok(outer.bbox.collidesWith(outer, inner) == false)
+  test.ok(outer.bbox.collidesWith(outer, outer) == true)
+
+  test.done()
+}
+
+exports.boundboxShouldNotColideWithVeryFarObjects = function(test) {
+  var far = new components.Vector(1540, 754)
+  var near = new components.Vector(70, 482)
+  var bbox = new components.BoundingBox(30, 40)
+
+  var outer = {coords: near, bbox: bbox}
+  var inner = {coords: far, bbox: bbox}
+
+  test.ok(outer.bbox.collidesWith(outer, inner) == false)
 
   test.done()
 }

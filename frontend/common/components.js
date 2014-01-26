@@ -58,15 +58,15 @@
   /**
    * @param position type of vector
    */
-  function BoundingBox(bobject, width, height) {
-    // todo(aistis): validate input
-
-    this.bobject = bobject
+  function BoundingBox(width, height) {
     this.width = width
     this.height = height
 
-    this.pointInside = function(x, y) {
-      position = this.bobject.coords
+    /**
+     * @param obj must have coords
+     */
+    this.pointInside = function(obj, x, y) {
+      position = obj.coords
 
       var x1 = position.x - (this.width / 2)
       var x2 = position.x + (this.width / 2)
@@ -82,24 +82,25 @@
       }
     }
 
-    this.collidesWith = function(bbox) {
-      position = this.bobject.coords
-
-      if (this.pointInside(position.x, position.y))
-        return true
+    /**
+     * @param obj must have coords and bbox
+     */
+    this.collidesWith = function(obj1, obj2) {
+      position = obj2.coords
+      bbox = obj2.bbox
 
       var x1 = position.x - (bbox.width / 2)
       var x2 = position.x + (bbox.width / 2)
       var y1 = position.y - bbox.height
       var y2 = position.y
 
-      if (this.pointInside(x1, y1))
+      if (this.pointInside(obj1, x1, y1))
         return true
-      if (this.pointInside(x1, y2))
+      if (this.pointInside(obj1, x1, y2))
         return true
-      if (this.pointInside(x2, y1))
+      if (this.pointInside(obj1, x2, y1))
         return true
-      if (this.pointInside(x2, y2))
+      if (this.pointInside(obj1, x2, y2))
         return true
 
       return false
@@ -113,7 +114,7 @@
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
     this.beingMoved = false
-    this.bbox = new BoundingBox(this, 42, 100)
+    this.bbox = new BoundingBox(42, 100)
   }
 
   Human.inflate = function(data) {
@@ -124,7 +125,7 @@
     human.coords = coords
     human.velocity = velocity
     human.beingMoved = data.beingMoved
-    human.bbox = new BoundingBox(human, 42, 100)
+    human.bbox = new BoundingBox(42, 100)
     return human
   }
 
@@ -133,8 +134,9 @@
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
-    this.bbox = new BoundingBox(this.coords, 30, 40)
     this.health = 3
+    // todo(aistis): change bounding box size
+    this.bbox = new BoundingBox(30, 40)
   }
 
   Cow.inflate = function(data) {
@@ -145,7 +147,7 @@
     cow.coords = coords
     cow.velocity = velocity
     cow.health = data.health
-    cow.bbox = new BoundingBox(cow, 30, 40)
+    cow.bbox = new BoundingBox(30, 40)
     return cow
   }
 
@@ -154,7 +156,7 @@
     this.id = id
     this.coords = coords
     this.velocity = Vector.Zero
-    this.bbox = new BoundingBox(this, 16, 29)
+    this.bbox = new BoundingBox(16, 29)
   }
 
   Flower.inflate = function(data) {
@@ -162,7 +164,7 @@
     var flower = new Flower()
     flower.id = data.id
     flower.coords = coords
-    flower.bbox = new BoundingBox(flower, 16, 29)
+    flower.bbox = new BoundingBox(16, 29)
     return flower
   }
 
