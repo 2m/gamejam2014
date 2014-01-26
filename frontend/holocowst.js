@@ -69,6 +69,22 @@
     return sprite
   }
 
+  function createNewCowSprite() {
+    var sprite = new Sprite()
+    var cb = new Bitmap(new BitmapData("cow.png"))
+    cb.x = -53
+    cb.y = -80
+    sprite.addChild(cb)
+
+    // debug, feet point
+    sprite.graphics.beginFill (0, 1.0);
+    sprite.graphics.drawCircle(0, 0, 3)
+    sprite.graphics.endFill()
+
+    stage.addChild(sprite)
+    return sprite
+  }
+
   function Start()
   {
     stage = new Stage("c")
@@ -163,6 +179,7 @@
         switch (object.type) {
           case "Human": sprite = createNewHumanSprite(); break
           case "Flower": sprite = createNewFlowerSprite(); break
+          case "Cow": sprite = createNewCowSprite(); break
           default: throw "Do not know what sprite to create for " + object.type
         }
         sprites[objectId] = sprite

@@ -93,6 +93,10 @@
       var inflated = require("./components").Flower.inflate(data.flowers[objectId])
       world.addFlower(inflated)
     }
+    for (objectId in data.cows) {
+      var inflated = require("./components").Cow.inflate(data.cows[objectId])
+      world.addCow(inflated)
+    }
     world.currentFrameNum = data.currentFrameNum
     return world
   }

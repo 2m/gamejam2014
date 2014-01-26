@@ -15,6 +15,7 @@ var inflater = new (require('./frontend/common/inflater').Inflater)()
 
 var world = new (require('./frontend/common/world').World)()
 createFlowers()
+createCows()
 var simulation = new (require('./frontend/common/simulation').Simulation)(world)
 var ticker = new (require('./frontend/common/ticker').Ticker)(simulation)
 
@@ -42,6 +43,19 @@ function createFlowers() {
     var flower = new components.Flower()
     flower.coords = new components.Vector(x, y)
     world.addFlower(flower)
+  }
+}
+
+function createCows() {
+  var minPos = components.Vector.Zero
+  var maxPos = new components.Vector(2000, 1000)
+  var maxCount = 20
+  for (var i = 0; i < maxCount; i++) {
+    var x = getRandomInt(minPos.x, maxPos.x)
+    var y = getRandomInt(minPos.y, maxPos.y)
+    var object = new components.Cow()
+    object.coords = new components.Vector(x, y)
+    world.addCow(object)
   }
 }
 
