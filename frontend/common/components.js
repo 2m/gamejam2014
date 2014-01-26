@@ -86,8 +86,8 @@
 
       var x1 = bbox.position.x - (bbox.width / 2)
       var x2 = bbox.position.x + (bbox.width / 2)
-      var y1 = bbox.position.y - (bbox.height / 2)
-      var y2 = bbox.position.y + (bbox.height / 2)
+      var y1 = bbox.position.y - bbox.height
+      var y2 = bbox.position.y
 
       if (this.pointInside(x1, y1))
         return true
