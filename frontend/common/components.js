@@ -58,18 +58,20 @@
   /**
    * @param position type of vector
    */
-  function BoundingBox(position, width, height) {
+  function BoundingBox(bobject, width, height) {
     // todo(aistis): validate input
 
-    this.position = position
+    this.bobject = bobject
     this.width = width
     this.height = height
 
     this.pointInside = function(x, y) {
-      var x1 = this.position.x - (this.width / 2)
-      var x2 = this.position.x + (this.width / 2)
-      var y1 = this.position.y - (this.height / 2)
-      var y2 = this.position.y + (this.height / 2)
+      position = this.bobject.coords
+
+      var x1 = position.x - (this.width / 2)
+      var x2 = position.x + (this.width / 2)
+      var y1 = position.y - (this.height / 2)
+      var y2 = position.y + (this.height / 2)
 
       if (x >= x1 && x <= x2
           && y >= y1 && y <= y2)
@@ -81,13 +83,15 @@
     }
 
     this.collidesWith = function(bbox) {
-      if (this.pointInside(bbox.position.x, bbox.position.y))
+      position = this.bobject.coords
+
+      if (this.pointInside(position.x, position.y))
         return true
 
-      var x1 = bbox.position.x - (bbox.width / 2)
-      var x2 = bbox.position.x + (bbox.width / 2)
-      var y1 = bbox.position.y - bbox.height
-      var y2 = bbox.position.y
+      var x1 = position.x - (bbox.width / 2)
+      var x2 = position.x + (bbox.width / 2)
+      var y1 = position.y - bbox.height
+      var y2 = position.y
 
       if (this.pointInside(x1, y1))
         return true
@@ -109,7 +113,7 @@
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
     this.beingMoved = false
-    this.bbox = new BoundingBox(this.coords, 30, 40)
+    this.bbox = new BoundingBox(this, 42, 100)
   }
 
   Human.inflate = function(data) {
@@ -120,6 +124,7 @@
     human.coords = coords
     human.velocity = velocity
     human.beingMoved = data.beingMoved
+    human.bbox = new BoundingBox(human, 42, 100)
     return human
   }
 
@@ -140,6 +145,7 @@
     cow.coords = coords
     cow.velocity = velocity
     cow.health = data.health
+    cow.bbox = new BoundingBox(cow, 30, 40)
     return cow
   }
 
@@ -148,6 +154,7 @@
     this.id = id
     this.coords = coords
     this.velocity = Vector.Zero
+    this.bbox = new BoundingBox(this, 16, 29)
   }
 
   Flower.inflate = function(data) {
@@ -155,6 +162,7 @@
     var flower = new Flower()
     flower.id = data.id
     flower.coords = coords
+    flower.bbox = new BoundingBox(flower, 16, 29)
     return flower
   }
 

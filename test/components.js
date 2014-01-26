@@ -37,7 +37,8 @@ exports.cowShouldHaveRequiredComponents = function(test) {
 
 exports.boundBoxShouldConfirmPointInside = function(test) {
   var position = new components.Vector(7.5, 7.5)
-  var boundbox = new components.BoundingBox(position, 5, 5)
+  var bobject = {coords: position}
+  var boundbox = new components.BoundingBox(bobject, 5, 5)
   var inside = false
 
   test.ok(boundbox.pointInside(1, 5) == false)
@@ -53,15 +54,14 @@ exports.boundBoxShouldConfirmPointInside = function(test) {
 
 exports.boundboxShouldColideWithBoundBox = function(test) {
   var position = new components.Vector(5, 10)
+  var bobject = {coords: position}
   var outsidePosition = new components.Vector(100, 50)
-  var outer = new components.BoundingBox(position, 10, 10)
-  var inner = new components.BoundingBox(position, 10, 10)
+  var bobjectOutside = {coords: outsidePosition}
+  var outer = new components.BoundingBox(bobject, 10, 10)
+  var inner = new components.BoundingBox(bobjectOutside, 10, 10)
 
   test.ok(outer.collidesWith(inner) == true)
   test.ok(outer.collidesWith(outer) == true)
-
-  inner.position = outsidePosition
-  test.ok(outer.collidesWith(inner) == false)
 
   test.done()
 }
