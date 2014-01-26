@@ -73,7 +73,7 @@
 
       // go through all cows and make them head towards nearest flower
       // do this every 100 game frames
-      if (this.world.getCurrentFrameNum() % 100) {
+      if (this.world.getCurrentFrameNum() % 100 == 0) {
         for (cowId in this.world.getAllCows()) {
           var cow = this.world.getObject(cowId)
 
@@ -91,7 +91,7 @@
             cowMovementToTheFlower = components.Vector.Zero
           }
 
-          cow.velocity = cow.velocity.add(cowMovementToTheFlower.normalize())
+          cow.velocity = cow.velocity.add(cowMovementToTheFlower.normalize().mul(10))
         }
       }
 
