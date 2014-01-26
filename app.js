@@ -6,6 +6,9 @@ var server = app.listen(process.env.PORT || 8080);
 
 var io = require('socket.io')(server);
 
+var cowCount = 20
+var flowerCount = 20
+
 // map of player_id to socket
 var clients = {}
 
@@ -14,12 +17,13 @@ var commands = require('./frontend/common/commands')
 var inflater = new (require('./frontend/common/inflater').Inflater)()
 
 var world = new (require('./frontend/common/world').World)()
-createFlowers()
-createCows()
+createFlowers(flowerCount)
+createCows(cowCount)
 var simulation = new (require('./frontend/common/simulation').Simulation)(world)
 var ticker = new (require('./frontend/common/ticker').Ticker)(simulation)
 
 setInterval(function () {
+  respawnCowsIfNeeded()
   sendWorldSync()
 }, 5000)
 
@@ -33,10 +37,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function createFlowers() {
-  var flowerMinPos = components.Vector.Zero
-  var flowerMaxPos = new components.Vector(2000, 1000)
-  var maxFlowers = 20
+function createFlowers(maxFlowers) {
+  var flowerMinPos = new components.Vector(100, 100)
+  var flowerMaxPos = new components.Vector(1600, 700)
   for (var i = 0; i < maxFlowers; i++) {
     var x = getRandomInt(flowerMinPos.x, flowerMaxPos.x)
     var y = getRandomInt(flowerMinPos.y, flowerMaxPos.y)
@@ -46,10 +49,9 @@ function createFlowers() {
   }
 }
 
-function createCows() {
+function createCows(maxCount) {
   var minPos = components.Vector.Zero
   var maxPos = new components.Vector(2000, 1000)
-  var maxCount = 20
   for (var i = 0; i < maxCount; i++) {
     var x = getRandomInt(minPos.x, maxPos.x)
     var y = getRandomInt(minPos.y, maxPos.y)
@@ -57,6 +59,11 @@ function createCows() {
     object.coords = new components.Vector(x, y)
     world.addCow(object)
   }
+}
+
+function respawnCowsIfNeeded() {
+  var currentCowCount = Object.keys(world.getAllCows()).length
+  createCows(cowCount - currentCowCount)
 }
 
 io.on('connection', function (socket) {
