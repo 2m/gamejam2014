@@ -42,9 +42,10 @@
           for (cowId in this.world.getAllCows()) {
             var cow = this.world.getObject(cowId)
             if (blastPosition.containsInRadius(cow.coords, command.radius)) {
-              console.log("Blasting cow: " + cowId)
               var cowMovementFromBlast = cow.coords.sub(blastPosition)
               cow.velocity = cow.velocity.add(cowMovementFromBlast.normalize().mul(command.power))
+              cow.health -= 1
+              console.log("Blasting cow: " + cowId + " which now has health " + cow.health)
             }
           }
           break
@@ -60,6 +61,15 @@
         console.log("Current frame number: " + this.world.getCurrentFrameNum())
       }
 
+      // go through all cows and remove them if health is < 0
+      for (cowId in this.world.getAllCows()) {
+        var cow = this.world.getObject(cowId)
+        if (cow.health <= 0) {
+          this.world.removeCow(cowId)
+        }
+      }
+
+      // go through all cows and make them head towards nearest flower
       for (cowId in this.world.getAllCows()) {
         var cow = this.world.getObject(cowId)
 

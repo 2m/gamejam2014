@@ -83,8 +83,10 @@ io.on('connection', function (socket) {
 
       // resend the command for all clients to reapply
       for (var humanId in clients) {
-        console.log("sending command to user" + humanId)
-        clients[humanId].emit('command', command);
+        if (command.name == "Blast" && humanId != command.objectId) {
+          console.log("sending command to user" + humanId)
+          clients[humanId].emit('command', command)
+        }
       }
 
     } catch (e) {

@@ -129,6 +129,7 @@
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
     this.bbox = new BoundingBox(this.coords, 30, 40)
+    this.health = 3
   }
 
   Cow.inflate = function(data) {
@@ -138,6 +139,7 @@
     cow.id = data.id
     cow.coords = coords
     cow.velocity = velocity
+    cow.health = data.health
     return cow
   }
 

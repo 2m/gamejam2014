@@ -72,6 +72,10 @@
       return addObject(cow, this.cows)
     }
 
+    this.removeCow = function(id) {
+      delete this.cows[id]
+    }
+
     this.addFlower = function(flower) {
       return addObject(flower, this.flowers)
     }
