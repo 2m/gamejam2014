@@ -11,6 +11,8 @@
 
     this.world = world
 
+    this.id = Math.random()
+
     this.setWorld = function (world) {
       this.world = world
     }
@@ -58,7 +60,7 @@
 
       this.world.increaseCurrentFrameNum()
       if (this.world.getCurrentFrameNum() % 1000 == 0) {
-        console.log("Current frame number: " + this.world.getCurrentFrameNum())
+        console.log("Current frame number: " + this.world.getCurrentFrameNum() + " in world no: " + this.id)
       }
 
       // go through all cows and remove them if health is < 0
@@ -70,24 +72,27 @@
       }
 
       // go through all cows and make them head towards nearest flower
-      for (cowId in this.world.getAllCows()) {
-        var cow = this.world.getObject(cowId)
+      // do this every 100 game frames
+      if (this.world.getCurrentFrameNum() % 100) {
+        for (cowId in this.world.getAllCows()) {
+          var cow = this.world.getObject(cowId)
 
-        var nearestFlowerPos, minDistance = 9999
-        for (flowerId in this.world.getAllFlowers()) {
-          var flower = this.world.getObject(flowerId)
-          if (cow.coords.distanceTo(flower.coords) < minDistance) {
-            minDistance = cow.coords.distanceTo(flower.coords)
-            nearestFlowerPos = flower.coords
+          var nearestFlowerPos, minDistance = 9999
+          for (flowerId in this.world.getAllFlowers()) {
+            var flower = this.world.getObject(flowerId)
+            if (cow.coords.distanceTo(flower.coords) < minDistance) {
+              minDistance = cow.coords.distanceTo(flower.coords)
+              nearestFlowerPos = flower.coords
+            }
           }
-        }
 
-        var cowMovementToTheFlower = nearestFlowerPos.sub(cow.coords)
-        if (minDistance < 5) {
-          cowMovementToTheFlower = components.Vector.Zero
-        }
+          var cowMovementToTheFlower = nearestFlowerPos.sub(cow.coords)
+          if (minDistance < 5) {
+            cowMovementToTheFlower = components.Vector.Zero
+          }
 
-        cow.velocity = cow.velocity.add(cowMovementToTheFlower.normalize())
+          cow.velocity = cow.velocity.add(cowMovementToTheFlower.normalize())
+        }
       }
 
       for (objectId in this.world.getAllObjects()) {
