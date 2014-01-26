@@ -6,7 +6,7 @@
 
   var inflater = new modules.inflater.Inflater()
 
-  var world
+  window.world = world = undefined
   var simulation = new modules.simulation.Simulation()
 
   var sprites = {}
@@ -42,6 +42,22 @@
     var cb = new Bitmap(new BitmapData("human.png"))
     cb.x = -21
     cb.y = -100
+    sprite.addChild(cb)
+
+    // debug, feet point
+    sprite.graphics.beginFill (0, 1.0);
+    sprite.graphics.drawCircle(0, 0, 3)
+    sprite.graphics.endFill()
+
+    stage.addChild(sprite)
+    return sprite
+  }
+
+  function createNewFlowerSprite() {
+    var sprite = new Sprite()
+    var cb = new Bitmap(new BitmapData("flower.png"))
+    cb.x = -8
+    cb.y = -29
     sprite.addChild(cb)
 
     // debug, feet point
@@ -138,13 +154,17 @@
 
   function onEnterFrame (e)
   {
-    for (objectId in world.humans) {
-      var object = world.humans[objectId]
+    for (objectId in world.getAllObjects()) {
+      var object = world.getAllObjects()[objectId]
 
       var sprite = sprites[objectId]
       if (sprite === undefined) {
         console.log("Creating sprite for:" + objectId)
-        sprite = createNewHumanSprite()
+        switch (object.type) {
+          case "Human": sprite = createNewHumanSprite(); break
+          case "Flower": sprite = createNewFlowerSprite(); break
+          default: throw "Do not know what sprite to create for " + object.type
+        }
         sprites[objectId] = sprite
       }
 
@@ -154,7 +174,7 @@
 
     // delete sprites for which we do not have world objects
     for (objectId in sprites) {
-      if (!(objectId in world.humans)) {
+      if (!(objectId in world.getAllObjects())) {
         console.log("Removing sprite which does not have a game object.")
         stage.removeChild(sprites[objectId])
         delete sprites[objectId]

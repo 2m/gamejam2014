@@ -8,7 +8,7 @@ exports.shouldApplyMovementStartCommand = function(test) {
   var w = new world.World()
   var s = new simulation.Simulation(w)
   var h = new components.Human("human")
-  var c = new commands.MovementStart(1, "human", "N")
+  var c = new commands.MovementStart(1, "human", "N", components.Vector.Zero)
 
   w.addHuman(h)
   s.applyCommand(c)

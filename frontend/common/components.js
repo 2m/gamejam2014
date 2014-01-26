@@ -3,6 +3,7 @@
   exports["Vector"] = Vector
   exports["Human"] = Human
   exports["Cow"] = Cow
+  exports["Flower"] = Flower
   exports["BoundingBox"] = BoundingBox
 
   function Vector(x, y) {
@@ -95,6 +96,7 @@
   }
 
   function Human(id) {
+    this.type = "Human"
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
@@ -114,6 +116,7 @@
   }
 
   function Cow(id) {
+    this.type = "Cow"
     this.id = id
     this.coords = new Vector(0, 0)
     this.velocity = new Vector(0, 0)
@@ -125,7 +128,24 @@
     var velocity = new Vector(data.velocity.x, data.velocity.y)
     var cow = new Cow()
     cow.id = data.id
+    cow.coords = coords
+    cow.velocity = velocity
     return cow
+  }
+
+  function Flower(id, coords) {
+    this.type = "Flower"
+    this.id = id
+    this.coords = coords
+    this.velocity = Vector.Zero
+  }
+
+  Flower.inflate = function(data) {
+    var coords = new Vector(data.coords.x, data.coords.y)
+    var flower = new Flower()
+    flower.id = data.id
+    flower.coords = coords
+    return flower
   }
 
   // this makes module work in nodejs as well as in browser

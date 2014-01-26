@@ -40,31 +40,20 @@
       return this.getAllObjects()[objectId]
     }
 
-    this.getObjectId = function(){
-      var human_id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+    function getObjectId() {
+      var objectId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
           /[xy]/g, function(c) {
             var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
             return v.toString(16);
           })
-      return human_id
+      return objectId
     }
 
     /**
      * Returns humand_id
      */
     this.addHuman = function(human) {
-      var humanId = human.id || this.getObjectId()
-
-      if (!human.id) {
-        human.id = humanId
-      }
-
-      if (this.humans[humanId]) {
-        throw "human with id " + humanId + " already exists"
-      }
-      this.humans[humanId] = human
-
-      return humanId
+      return addObject(human, this.humans)
     }
 
     this.removeHuman = function(humanId) {
@@ -72,26 +61,37 @@
     }
 
     this.addCow = function(cow) {
-      var cowId = cow.id || this.getObjectId()
+      return addObject(cow, this.cows)
+    }
 
-      if (!cow.id) {
-        cow.id = cowId
+    this.addFlower = function(flower) {
+      return addObject(flower, this.flowers)
+    }
+
+    function addObject(object, container) {
+      var objectId = object.id || getObjectId()
+      if (!object.id) {
+        object.id = objectId
       }
 
-      if (this.cows[cowId]) {
-        throw "cow with id " + cowId + " already exists"
+      if (container[objectId]) {
+        throw "object with id " + objectId + " already exists"
       }
-      this.cows[cowId] = cow
+      container[objectId] = object
 
-      return cowId
+      return objectId
     }
   }
 
   World.inflate = function(data) {
     var world = new World()
     for (objectId in data.humans) {
-      var inflatedHuman = require("./components").Human.inflate(data.humans[objectId])
-      world.addHuman(inflatedHuman)
+      var inflated = require("./components").Human.inflate(data.humans[objectId])
+      world.addHuman(inflated)
+    }
+    for (objectId in data.flowers) {
+      var inflated = require("./components").Flower.inflate(data.flowers[objectId])
+      world.addFlower(inflated)
     }
     world.currentFrameNum = data.currentFrameNum
     return world

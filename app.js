@@ -14,6 +14,7 @@ var commands = require('./frontend/common/commands')
 var inflater = new (require('./frontend/common/inflater').Inflater)()
 
 var world = new (require('./frontend/common/world').World)()
+createFlowers()
 var simulation = new (require('./frontend/common/simulation').Simulation)(world)
 var ticker = new (require('./frontend/common/ticker').Ticker)(simulation)
 
@@ -24,6 +25,23 @@ setInterval(function () {
 function sendWorldSync() {
   for (var humanId in clients) {
     clients[humanId].emit('world_data', new commands.FullWorld(world));
+  }
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function createFlowers() {
+  var flowerMinPos = components.Vector.Zero
+  var flowerMaxPos = new components.Vector(2000, 1000)
+  var maxFlowers = 20
+  for (var i = 0; i < maxFlowers; i++) {
+    var x = getRandomInt(flowerMinPos.x, flowerMaxPos.x)
+    var y = getRandomInt(flowerMinPos.y, flowerMaxPos.y)
+    var flower = new components.Flower()
+    flower.coords = new components.Vector(x, y)
+    world.addFlower(flower)
   }
 }
 
