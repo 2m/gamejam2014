@@ -41,7 +41,6 @@
   })
 
   socket.on('human_id', function (data) {
-    console.log("Got my human_id.")
     console.log(data)
 
     myId = data
@@ -97,7 +96,7 @@
   function Start()
   {
     stage = new Stage("c")
-    console.log("Stage w:" + stage.stageWidth + ", stage h: " + stage.stageHeight)
+    // console.log("Stage w:" + stage.stageWidth + ", stage h: " + stage.stageHeight)
 
     // loading global texture data
     human_bitmap =  new Bitmap(new BitmapData("human.png"))
@@ -163,7 +162,7 @@
     }
 
     if (lastDirection != direction && direction != "") {
-      console.log("Sending MovementStart command to server with direction: " + direction)
+      // console.log("Sending MovementStart command to server with direction: " + direction)
       var myHuman = world.getObject(myId)
       var command = new modules.commands.MovementStart(world.getCurrentFrameNum(), myId, direction, myHuman.coords)
       socket.emit("command", command)
@@ -177,7 +176,7 @@
   function onKeyUp(e)
   {
     if (e.keyCode == 32) {
-      console.log("Sending Blast command to server.")
+      // console.log("Sending Blast command to server.")
       var command = new modules.commands.Blast(0, myId)
       socket.emit("command", command)
 
@@ -191,7 +190,7 @@
 
     lastDirection = ""
     if (!l && !u && !r && !d) {
-      console.log("Sending MovementEnd command to server.")
+      // console.log("Sending MovementEnd command to server.")
       var command = new modules.commands.MovementEnd(0, myId)
       socket.emit("command", command)
 
@@ -206,7 +205,7 @@
 
       var sprite = sprites[objectId]
       if (sprite === undefined) {
-        console.log("Creating sprite for:" + objectId)
+        // console.log("Creating sprite for:" + objectId)
         switch (object.type) {
           case "Human": sprite = createNewHumanSprite(); break
           case "Flower": sprite = createNewFlowerSprite(); break
@@ -214,6 +213,13 @@
           default: throw "Do not know what sprite to create for " + object.type
         }
         sprites[objectId] = sprite
+      }
+
+      if (object.type == "Cow") {
+        if (object.health <= 0) {
+          stage.removeChild(sprite)
+          delete sprites[objectId]
+        }
       }
 
       sprite.x = object.coords.x
