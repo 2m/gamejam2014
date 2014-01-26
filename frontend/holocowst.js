@@ -1,4 +1,10 @@
 (function() {
+  // global texture data
+  var human_bitmap = null
+  var cow_bitmap = null
+  var flower_bitmap = null
+
+
   var stage, car, lastDirection, speedX = 0, speedY = 0
   var l, r, u, d
 
@@ -20,6 +26,18 @@
       var ticker = new modules.ticker.Ticker(simulation)
       Start()
     }
+
+    if (! stage)
+      return
+
+    // delete sprites for which we do not have world objects
+    for (objectId in sprites) {
+      if (!(objectId in world.getAllObjects())) {
+        console.log("Removing sprite which does not have a game object.")
+        stage.removeChild(sprites[objectId])
+        delete sprites[objectId]
+      }
+    }
   })
 
   socket.on('human_id', function (data) {
@@ -39,10 +57,7 @@
 
   function createNewHumanSprite() {
     var sprite = new Sprite()
-    var cb = new Bitmap(new BitmapData("human.png"))
-    cb.x = -21
-    cb.y = -100
-    sprite.addChild(cb)
+    sprite.addChild(human_bitmap)
 
     // debug, feet point
     sprite.graphics.beginFill (0, 1.0);
@@ -55,10 +70,7 @@
 
   function createNewFlowerSprite() {
     var sprite = new Sprite()
-    var cb = new Bitmap(new BitmapData("flower.png"))
-    cb.x = -8
-    cb.y = -29
-    sprite.addChild(cb)
+    sprite.addChild(flower_bitmap)
 
     // debug, feet point
     sprite.graphics.beginFill (0, 1.0);
@@ -71,10 +83,7 @@
 
   function createNewCowSprite() {
     var sprite = new Sprite()
-    var cb = new Bitmap(new BitmapData("cow.png"))
-    cb.x = -53
-    cb.y = -80
-    sprite.addChild(cb)
+    sprite.addChild(cow_bitmap)
 
     // debug, feet point
     sprite.graphics.beginFill (0, 1.0);
@@ -89,6 +98,20 @@
   {
     stage = new Stage("c")
     console.log("Stage w:" + stage.stageWidth + ", stage h: " + stage.stageHeight)
+
+    // loading global texture data
+    human_bitmap =  new Bitmap(new BitmapData("human.png"))
+    human_bitmap.x = -21
+    human_bitmap.y = -100
+
+    cow_bitmap = new Bitmap(new BitmapData("cow.png"))
+    cow_bitmap.x = -53
+    cow_bitmap.y = -80
+
+    flower_bitmap = new Bitmap(new BitmapData("flower.png"))
+    flower_bitmap.x = -8
+    flower_bitmap.y = -29
+
 
     // background
     var s = new Sprite()
@@ -197,14 +220,6 @@
       sprite.y = object.coords.y
     }
 
-    // delete sprites for which we do not have world objects
-    for (objectId in sprites) {
-      if (!(objectId in world.getAllObjects())) {
-        console.log("Removing sprite which does not have a game object.")
-        stage.removeChild(sprites[objectId])
-        delete sprites[objectId]
-      }
-    }
   }
 
 })()
